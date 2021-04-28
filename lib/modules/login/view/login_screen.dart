@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:kartal/kartal.dart';
 
+import '../cubit/auth_cubit.dart';
 import 'components/login_appbar.dart';
 import 'components/login_header.dart';
 
@@ -19,6 +20,37 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final _authCubit = BlocProvider.of<AuthCubit>(context);
+
+    Widget showButtonContinue() {
+      return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          padding: context.verticalPaddingNormal,
+        ),
+        onPressed: () {
+          if (_form.currentState!.saveAndValidate()) {
+            String username = _form.currentState!.value['username'];
+            String password = _form.currentState!.value['password'];
+            _authCubit.signIn(username, password);
+          }
+        },
+        child: const Text('CONTINUE'),
+      );
+    }
+
+    Widget showLoading() {
+      return Column(
+        children: [
+          const CircularProgressIndicator(),
+        ],
+      );
+    }
+
+    ScaffoldFeatureController showMessage(String message) {
+      return ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
@@ -59,17 +91,26 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: hidePassword,
                     textAlign: TextAlign.start,
                     name: 'password',
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       labelText: 'Password',
-                      border: OutlineInputBorder(),
+                      border: const OutlineInputBorder(),
                       hintText: 'Enter your password',
-                      prefixIcon: Icon(
+                      prefixIcon: const Icon(
                         Icons.lock,
                         size: 23,
                       ),
-                      suffixIcon: Icon(
-                        Icons.remove_red_eye_outlined,
-                        size: 23,
+                      suffixIcon: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            hidePassword = !hidePassword;
+                          });
+                        },
+                        child: Icon(
+                          hidePassword
+                              ? Icons.remove_red_eye_outlined
+                              : Icons.remove_red_eye,
+                          size: 23,
+                        ),
                       ),
                     ),
                     validator: FormBuilderValidators.compose([
@@ -77,13 +118,23 @@ class _LoginScreenState extends State<LoginScreen> {
                     ]),
                   ),
                   context.emptySizedHeightBoxLow3x,
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: context.verticalPaddingNormal,
-                    ),
-                    onPressed: () {},
-                    child: const Text('CONTINUE'),
-                  )
+                  BlocConsumer<AuthCubit, AuthState>(
+                    builder: (context, state) {
+                      if (state is InProgress) return showLoading();
+                      return showButtonContinue();
+                    },
+                    listener: (context, state) {
+                      state.maybeWhen(
+                        authenticated: (session) {
+                          showMessage('Login Success');
+                        },
+                        failed: (error) {
+                          showMessage('Login Failed');
+                        },
+                        orElse: () {},
+                      );
+                    },
+                  ),
                 ],
               ),
             ),

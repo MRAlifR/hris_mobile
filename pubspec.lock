@@ -287,6 +287,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  http:
+    dependency: transitive
+    description:
+      name: http
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.13.1"
   http_multi_server:
     dependency: transitive
     description:
@@ -323,12 +330,19 @@ packages:
     source: hosted
     version: "0.6.3"
   json_annotation:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: json_annotation
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.1"
+  json_serializable:
+    dependency: "direct dev"
+    description:
+      name: json_serializable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.1.1"
   kartal:
     dependency: "direct main"
     description:
@@ -392,6 +406,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.4.13"
+  odoo_rpc:
+    dependency: "direct main"
+    description:
+      name: odoo_rpc
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.3"
   package_config:
     dependency: transitive
     description:

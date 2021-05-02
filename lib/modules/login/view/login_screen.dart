@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:hris_mobile/modules/login/view/navigation_screen.dart';
 import 'package:kartal/kartal.dart';
 
 import '../cubit/auth_cubit.dart';
@@ -126,7 +127,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     listener: (context, state) {
                       state.maybeWhen(
                         authenticated: (session) {
-                          showMessage('Login Success');
+                          context.navigateToReset(NavigationScreen.id);
+                          showMessage('Welcome back ${session.userName}');
                         },
                         failed: (error) {
                           showMessage('Login Failed');

@@ -12,6 +12,19 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit(this.authRepo) : super(const AuthState.initial());
   AuthRepo authRepo;
 
+  void appStarted() async {
+    emit(const AuthState.inProgress());
+    var apiResult = await authRepo.getSession();
+    apiResult.when(
+      success: (session) {
+        emit(AuthState.authenticated(session));
+      },
+      failure: (NetworkExceptions e) {
+        emit(const AuthState.unauthenticated());
+      },
+    );
+  }
+
   void signIn(String username, String password) async {
     emit(const AuthState.inProgress());
     var apiResult = await authRepo.logIn(username, password);
@@ -23,5 +36,10 @@ class AuthCubit extends Cubit<AuthState> {
         emit(AuthState.failed(e));
       },
     );
+  }
+
+  void signOut() async {
+    await authRepo.logOut();
+    emit(const AuthState.unauthenticated());
   }
 }

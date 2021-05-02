@@ -23,13 +23,14 @@ dependencies:
   freezed_annotation: ^0.14.1
   odoo_rpc: ^0.4.3
   json_annotation: ^4.0.1
+  flutter_secure_storage: ^4.2.0
   
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   bloc_test: ^8.0.0
-  mocktail: ^0.1.0
+  mocktail: ^0.1.2
   very_good_analysis: ^2.0.0
   
   freezed: ^0.14.1+3

@@ -25,7 +25,7 @@ class App extends StatelessWidget {
 
     return BlocProvider<AuthCubit>(
       lazy: false,
-      create: (_) => AuthCubit(authRepo),
+      create: (_) => AuthCubit(authRepo)..appStarted(),
       child: MaterialApp(
         theme: ThemeData(
           accentColor: const Color(0xFF13B9FF),

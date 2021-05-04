@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hris_mobile/modules/login/view/login_screen.dart';
-import 'package:hris_mobile/modules/login/view/navigation_screen.dart';
-import 'package:hris_mobile/modules/login/view/splash_screen.dart';
+import '../../modules/login/view/login_screen.dart';
+import '../../modules/login/view/navigation_screen.dart';
+import '../../modules/login/view/splash_screen.dart';
 
 class AppRouter {
   Route? onGenerateRoute(RouteSettings settings) {

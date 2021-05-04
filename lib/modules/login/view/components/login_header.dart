@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:kartal/kartal.dart';
-import 'package:hris_mobile/l10n/l10n.dart';
+import '../../../../l10n/l10n.dart';
 
 class LoginHeader extends StatelessWidget {
   const LoginHeader();

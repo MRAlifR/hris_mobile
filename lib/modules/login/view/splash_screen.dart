@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hris_mobile/modules/login/cubit/auth_cubit.dart';
-import 'package:hris_mobile/modules/login/view/login_screen.dart';
-import 'package:hris_mobile/modules/login/view/navigation_screen.dart';
+import '../cubit/auth_cubit.dart';
+import 'login_screen.dart';
+import 'navigation_screen.dart';
 import 'package:kartal/kartal.dart';
 
 class SplashScreen extends StatelessWidget {

@@ -1,14 +1,13 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:hris_mobile/modules/login/view/navigation_screen.dart';
 import 'package:kartal/kartal.dart';
-import 'package:hris_mobile/l10n/l10n.dart';
+
+import '../../../l10n/l10n.dart';
 import '../cubit/auth_cubit.dart';
 import 'components/login_appbar.dart';
 import 'components/login_header.dart';
+import 'navigation_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const id = 'login_screen';

@@ -14,8 +14,13 @@ class SplashScreen extends StatelessWidget {
       child: Scaffold(
         body: SafeArea(
           child: Center(
-            child: Container(
-              child: Image.asset('assets/images/app_logo.png'),
+            child: Flexible(
+              child: Hero(
+                tag: 'logo',
+                child: Container(
+                  child: Image.asset('assets/images/app_logo.png'),
+                ),
+              ),
             ),
           ),
         ),

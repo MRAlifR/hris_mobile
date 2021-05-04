@@ -1,9 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:hris_mobile/modules/login/view/navigation_screen.dart';
 import 'package:kartal/kartal.dart';
-
+import 'package:hris_mobile/l10n/l10n.dart';
 import '../cubit/auth_cubit.dart';
 import 'components/login_appbar.dart';
 import 'components/login_header.dart';
@@ -22,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final _authCubit = BlocProvider.of<AuthCubit>(context);
+    final l10n = context.l10n;
 
     Widget showButtonContinue() {
       return ElevatedButton(
@@ -74,11 +77,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: false,
                     textAlign: TextAlign.start,
                     name: 'username',
-                    decoration: const InputDecoration(
-                      labelText: 'Email or Username',
-                      border: OutlineInputBorder(),
-                      hintText: 'Enter your email or username',
-                      prefixIcon: Icon(
+                    decoration: InputDecoration(
+                      labelText: l10n.emailLabel,
+                      border: const OutlineInputBorder(),
+                      hintText: l10n.emailHint,
+                      prefixIcon: const Icon(
                         Icons.account_circle,
                         size: 23,
                       ),
@@ -93,9 +96,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     textAlign: TextAlign.start,
                     name: 'password',
                     decoration: InputDecoration(
-                      labelText: 'Password',
+                      labelText: l10n.passwordLabel,
                       border: const OutlineInputBorder(),
-                      hintText: 'Enter your password',
+                      hintText: l10n.passwordHint,
                       prefixIcon: const Icon(
                         Icons.lock,
                         size: 23,
@@ -127,11 +130,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     listener: (context, state) {
                       state.maybeWhen(
                         authenticated: (session) {
+                          final username = session.userName;
                           context.navigateToReset(NavigationScreen.id);
-                          showMessage('Welcome back ${session.userName}');
+                          showMessage(l10n.loginSuccessMessage(username));
                         },
                         failed: (error) {
-                          showMessage('Login Failed');
+                          showMessage(l10n.loginFailedMessage);
                         },
                         orElse: () {},
                       );

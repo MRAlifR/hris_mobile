@@ -1,0 +1,34 @@
+{
+    "@@locale": "en",
+    "counterAppBarTitle": "Counter",
+    "@counterAppBarTitle": {
+        "description": "Text shown in the AppBar of the Counter Page"
+    },
+
+    "upperLoginHeader": "Welcome Back",
+
+    "lowerLoginHeader": "Sign in with your email and password  \nor continue with social media",
+
+    "emailLabel": "Email or Username",
+
+    "emailHint": "Enter your email or username",
+
+    "passwordLabel": "Password",
+
+    "passwordHint": "Enter your password",
+
+    "loginSuccessMessage": "Welcome back {personName}",
+    "@loginSuccessMessage": {
+        "description": "Login success message with a person name parameter",
+        "placeholders": {
+          "personName": {
+            "type": "String",
+            "example": "Bob"
+          }
+        }
+      },
+
+    "loginFailedMessage": "Login Failed"
+
+      
+}

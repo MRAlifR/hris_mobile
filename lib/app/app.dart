@@ -12,6 +12,7 @@ import 'package:hris_mobile/config/router/app_router.dart';
 import 'package:hris_mobile/l10n/l10n.dart';
 import 'package:hris_mobile/modules/login/cubit/auth_cubit.dart';
 import 'package:hris_mobile/modules/login/repository/auth_repo.dart';
+import 'package:intl/intl.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
 
 class App extends StatelessWidget {
@@ -22,6 +23,7 @@ class App extends StatelessWidget {
     final odooClient = OdooClient('http://192.168.43.67:8067');
     final authRepo = AuthRepo(odooClient);
     final _appRouter = AppRouter();
+    // final defaultLanguage = const Locale('id', 'ID');
 
     return BlocProvider<AuthCubit>(
       lazy: false,
@@ -36,6 +38,10 @@ class App extends StatelessWidget {
           GlobalMaterialLocalizations.delegate,
         ],
         supportedLocales: AppLocalizations.supportedLocales,
+        // localeResolutionCallback: (locale, supportedLocales) {
+        //   Intl.defaultLocale = defaultLanguage.toLanguageTag();
+        //   return defaultLanguage;
+        // },
         onGenerateRoute: _appRouter.onGenerateRoute,
         onGenerateInitialRoutes: _appRouter.onGenerateInitialRoutes,
       ),

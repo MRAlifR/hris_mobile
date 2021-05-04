@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:kartal/kartal.dart';
+import 'package:hris_mobile/l10n/l10n.dart';
 
 class LoginHeader extends StatelessWidget {
   const LoginHeader();
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -21,12 +23,12 @@ class LoginHeader extends StatelessWidget {
           ),
         ),
         Text(
-          'Welcome Back',
+          l10n.upperLoginHeader,
           textAlign: TextAlign.center,
           style: context.appTheme.textTheme.headline4,
         ),
         Text(
-          'Sign in with your email and password  \nor continue with social media',
+          l10n.lowerLoginHeader,
           textAlign: TextAlign.center,
           style: context.appTheme.textTheme.bodyText2,
         )

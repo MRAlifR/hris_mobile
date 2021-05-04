@@ -1,0 +1,32 @@
+{
+    "@@locale": "id",
+    "counterAppBarTitle": "Penghitung",
+    "@counterAppBarTitle": {
+        "description": "Text yang muncul di AppBar pada Halaman Penghitung"
+    },
+
+    "upperLoginHeader": "Selamat Datang",
+
+    "lowerLoginHeader": "Masuk menggunakan email dan password kamu \natau lanjutkan dengan akun media sosial",
+
+    "emailLabel": "Email atau Username",
+
+    "emailHint": "Masukkan email atau username kamu",
+
+    "passwordLabel": "Password",
+
+    "passwordHint": "Masukkan password kamu",
+
+    "loginSuccessMessage": "Selamat datang {personName}",
+    "@loginSuccessMessage": {
+        "description": "Login success message with a person name parameter",
+        "placeholders": {
+          "personName": {
+            "type": "String",
+            "example": "Bob"
+          }
+        }
+      },
+
+    "loginFailedMessage": "Login gagal"
+}

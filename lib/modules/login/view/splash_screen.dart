@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kartal/kartal.dart';
+
 import '../cubit/auth_cubit.dart';
 import 'login_screen.dart';
 import 'navigation_screen.dart';
-import 'package:kartal/kartal.dart';
 
 class SplashScreen extends StatelessWidget {
   static const id = 'splash_screen';

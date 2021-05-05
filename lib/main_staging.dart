@@ -20,7 +20,11 @@ void main() {
   };
 
   runZonedGuarded(
-    () => runApp(const App()),
+    () => runApp(
+      App(
+        odooURL: 'http://192.168.43.67:8067',
+      ),
+    ),
     (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
   );
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:hris_mobile/modules/attendance/view/attendance_screen.dart';
 import 'package:kartal/kartal.dart';
 
 import '../../../l10n/l10n.dart';
@@ -130,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       state.maybeWhen(
                         authenticated: (session) {
                           final username = session.userName;
-                          context.navigateToReset(NavigationScreen.id);
+                          context.navigateToReset(AttendanceScreen.id);
                           showMessage(l10n.loginSuccessMessage(username));
                         },
                         failed: (error) {

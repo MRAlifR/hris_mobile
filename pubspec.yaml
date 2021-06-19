@@ -24,6 +24,9 @@ dependencies:
   odoo_rpc: ^0.4.3
   json_annotation: ^4.0.1
   flutter_secure_storage: ^4.2.0
+  geolocator: ^7.0.3
+  google_maps_flutter: ^2.0.3
+  sliding_sheet: ^0.5.0
 
 dev_dependencies:
   flutter_test:

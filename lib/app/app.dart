@@ -15,11 +15,13 @@ import 'package:hris_mobile/modules/login/repository/auth_repo.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  App({Key? key, required this.odooURL}) : super(key: key);
+
+  late final String odooURL;
 
   @override
   Widget build(BuildContext context) {
-    final odooClient = OdooClient('http://192.168.43.67:8067');
+    final odooClient = OdooClient(odooURL);
     final authRepo = AuthRepo(odooClient);
     final _appRouter = AppRouter();
 

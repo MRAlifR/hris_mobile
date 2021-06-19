@@ -34,12 +34,14 @@ class AuthRepo {
     }
   }
 
-  Future<void> logOut() async {
+  Future<ApiResponse> logOut() async {
     try {
       await client.destroySession();
       await storage.delete(key: 'session');
+      return const ApiResponse.success('Sign out success');
     } on OdooException catch (e) {
       print(e);
+      return ApiResponse.failure(NetworkExceptions.getDioException(e));
     }
   }
 }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hris_mobile/modules/login/cubit/auth_cubit.dart';
-import 'package:hris_mobile/modules/login/view/login_screen.dart';
-import 'package:hris_mobile/modules/login/view/navigation_screen.dart';
 import 'package:kartal/kartal.dart';
+
+import '../cubit/auth_cubit.dart';
+import 'login_screen.dart';
+import 'navigation_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   static const id = 'splash_screen';
@@ -14,8 +15,13 @@ class SplashScreen extends StatelessWidget {
       child: Scaffold(
         body: SafeArea(
           child: Center(
-            child: Container(
-              child: Image.asset('assets/images/app_logo.png'),
+            child: Flexible(
+              child: Hero(
+                tag: 'logo',
+                child: Container(
+                  child: Image.asset('assets/images/app_logo.png'),
+                ),
+              ),
             ),
           ),
         ),

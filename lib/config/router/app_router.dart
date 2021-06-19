@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hris_mobile/modules/login/view/login_screen.dart';
-import 'package:hris_mobile/modules/login/view/navigation_screen.dart';
-import 'package:hris_mobile/modules/login/view/splash_screen.dart';
+import 'package:hris_mobile/modules/attendance/view/attendance_screen.dart';
+import '../../modules/login/view/login_screen.dart';
+import '../../modules/login/view/navigation_screen.dart';
+import '../../modules/login/view/splash_screen.dart';
 
 class AppRouter {
   Route? onGenerateRoute(RouteSettings settings) {
@@ -9,6 +10,10 @@ class AppRouter {
       case LoginScreen.id:
         return MaterialPageRoute(
           builder: (_) => LoginScreen(),
+        );
+      case AttendanceScreen.id:
+        return MaterialPageRoute(
+          builder: (_) => AttendanceScreen(),
         );
       case NavigationScreen.id:
         return MaterialPageRoute(
@@ -20,6 +25,6 @@ class AppRouter {
   }
 
   List<Route<dynamic>> onGenerateInitialRoutes(String route) {
-    return [MaterialPageRoute(builder: (_) => SplashScreen())];
+    return [MaterialPageRoute(builder: (_) => AttendanceScreen())];
   }
 }

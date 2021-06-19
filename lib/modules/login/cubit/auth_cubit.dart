@@ -39,7 +39,15 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   void signOut() async {
-    await authRepo.logOut();
-    emit(const AuthState.unauthenticated());
+    emit(const AuthState.inProgress());
+    var apiResult = await authRepo.logOut();
+    apiResult.when(
+      success: (message) {
+        emit(const AuthState.unauthenticated());
+      },
+      failure: (NetworkExceptions e) {
+        emit(AuthState.failed(e));
+      },
+    );
   }
 }

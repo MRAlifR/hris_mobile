@@ -20,9 +20,10 @@ class _$LocationStateTearOff {
     return const Initial();
   }
 
-  Changed changed(Position position) {
+  Changed changed({required Position position, required String address}) {
     return Changed(
-      position,
+      position: position,
+      address: address,
     );
   }
 
@@ -41,14 +42,14 @@ mixin _$LocationState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(Position position) changed,
+    required TResult Function(Position position, String address) changed,
     required TResult Function(String message) failed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(Position position)? changed,
+    TResult Function(Position position, String address)? changed,
     TResult Function(String message)? failed,
     required TResult orElse(),
   }) =>
@@ -125,7 +126,7 @@ class _$Initial implements Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(Position position) changed,
+    required TResult Function(Position position, String address) changed,
     required TResult Function(String message) failed,
   }) {
     return initial();
@@ -135,7 +136,7 @@ class _$Initial implements Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(Position position)? changed,
+    TResult Function(Position position, String address)? changed,
     TResult Function(String message)? failed,
     required TResult orElse(),
   }) {
@@ -178,7 +179,7 @@ abstract class Initial implements LocationState {
 abstract class $ChangedCopyWith<$Res> {
   factory $ChangedCopyWith(Changed value, $Res Function(Changed) then) =
       _$ChangedCopyWithImpl<$Res>;
-  $Res call({Position position});
+  $Res call({Position position, String address});
 }
 
 /// @nodoc
@@ -193,12 +194,17 @@ class _$ChangedCopyWithImpl<$Res> extends _$LocationStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? position = freezed,
+    Object? address = freezed,
   }) {
     return _then(Changed(
-      position == freezed
+      position: position == freezed
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
               as Position,
+      address: address == freezed
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -206,14 +212,16 @@ class _$ChangedCopyWithImpl<$Res> extends _$LocationStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$Changed implements Changed {
-  const _$Changed(this.position);
+  const _$Changed({required this.position, required this.address});
 
   @override
   final Position position;
+  @override
+  final String address;
 
   @override
   String toString() {
-    return 'LocationState.changed(position: $position)';
+    return 'LocationState.changed(position: $position, address: $address)';
   }
 
   @override
@@ -222,12 +230,16 @@ class _$Changed implements Changed {
         (other is Changed &&
             (identical(other.position, position) ||
                 const DeepCollectionEquality()
-                    .equals(other.position, position)));
+                    .equals(other.position, position)) &&
+            (identical(other.address, address) ||
+                const DeepCollectionEquality().equals(other.address, address)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(position);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(position) ^
+      const DeepCollectionEquality().hash(address);
 
   @JsonKey(ignore: true)
   @override
@@ -238,22 +250,22 @@ class _$Changed implements Changed {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(Position position) changed,
+    required TResult Function(Position position, String address) changed,
     required TResult Function(String message) failed,
   }) {
-    return changed(position);
+    return changed(position, address);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(Position position)? changed,
+    TResult Function(Position position, String address)? changed,
     TResult Function(String message)? failed,
     required TResult orElse(),
   }) {
     if (changed != null) {
-      return changed(position);
+      return changed(position, address);
     }
     return orElse();
   }
@@ -284,9 +296,11 @@ class _$Changed implements Changed {
 }
 
 abstract class Changed implements LocationState {
-  const factory Changed(Position position) = _$Changed;
+  const factory Changed({required Position position, required String address}) =
+      _$Changed;
 
   Position get position => throw _privateConstructorUsedError;
+  String get address => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $ChangedCopyWith<Changed> get copyWith => throw _privateConstructorUsedError;
 }
@@ -354,7 +368,7 @@ class _$Failed implements Failed {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(Position position) changed,
+    required TResult Function(Position position, String address) changed,
     required TResult Function(String message) failed,
   }) {
     return failed(message);
@@ -364,7 +378,7 @@ class _$Failed implements Failed {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(Position position)? changed,
+    TResult Function(Position position, String address)? changed,
     TResult Function(String message)? failed,
     required TResult orElse(),
   }) {

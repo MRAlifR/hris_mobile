@@ -9,30 +9,30 @@ part 'location_state.dart';
 part 'location_cubit.freezed.dart';
 
 class LocationCubit extends Cubit<LocationState> {
-  LocationCubit(this.locationRepo) : super(const LocationState.initial());
-
-  late LocationRepo locationRepo;
-  late Geolocator geolocator;
-  late StreamSubscription<Position> positionStream;
-
-  void listenPosition() {
+  LocationCubit({required LocationRepo locationRepo})
+      : _locationRepo = locationRepo,
+        super(const LocationState.initial()) {
     try {
-      positionStream = locationRepo
-          .getPositionStream(
-        intervalDuration: const Duration(seconds: 2),
-        distanceFilter: 1,
-      )
-          .listen((position) {
-        emit(LocationState.changed(position));
+      _positionStream =
+          _locationRepo.getPositionStream().listen((position) async {
+        emit(LocationState.changed(
+          position: position,
+          address: await _locationRepo.getAddress(position),
+        ));
       });
     } catch (e) {
       emit(LocationState.failed(e.toString()));
     }
   }
 
+  final LocationRepo _locationRepo;
+  late StreamSubscription<Position> _positionStream;
+
+  void emitState() {}
+
   @override
   Future<void> close() {
-    positionStream.cancel();
+    _positionStream.cancel();
     return super.close();
   }
 }

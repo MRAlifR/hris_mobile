@@ -19,7 +19,6 @@ class RoundButton extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        splashColor: colorList[1],
         customBorder: const CircleBorder(),
         onTap: onTap,
         child: Padding(
@@ -34,14 +33,14 @@ class RoundButton extends StatelessWidget {
                 end: Alignment.bottomLeft,
                 stops: [
                   -0.1,
-                  0.5,
+                  0.4,
                   1.1,
                 ],
                 colors: colorList,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.shade400,
+                  color: colorList[1],
                   spreadRadius: 1,
                   blurRadius: 20,
                   offset: const Offset(0, 10), // changes position of shadow

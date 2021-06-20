@@ -5,18 +5,16 @@
         "description": "Text shown in the AppBar of the Counter Page"
     },
 
+
+    "home": "Home",
+
+
     "upperLoginHeader": "Welcome Back",
-
     "lowerLoginHeader": "Sign in with your email and password  \nor continue with social media",
-
     "emailLabel": "Email or Username",
-
     "emailHint": "Enter your email or username",
-
     "passwordLabel": "Password",
-
     "passwordHint": "Enter your password",
-
     "loginSuccessMessage": "Welcome back {personName}",
     "@loginSuccessMessage": {
         "description": "Login success message with a person name parameter",
@@ -27,8 +25,21 @@
           }
         }
       },
+    "loginFailedMessage": "Login Failed",
 
-    "loginFailedMessage": "Login Failed"
+    
+    "attendance": "Attendance",
+    "location": "Location",
+    "locationNotFound": "Location not found",
+    "checkIn": "Check In",
+    "checkOut": "Check Out",
+    "workingHours": "Working Hours",
+    
+
+    "profile": "Profile",
+
+    
+    "more": "More"
 
       
 }

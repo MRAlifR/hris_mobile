@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hris_mobile/modules/attendance/cubit/attendance_cubit.dart';
+import 'package:hris_mobile/modules/attendance/cubit/location_cubit.dart';
+import 'package:hris_mobile/modules/attendance/repository/location_repo.dart';
 import 'package:hris_mobile/modules/attendance/view/attendance_screen.dart';
-import '../../modules/login/view/login_screen.dart';
-import '../../modules/login/view/navigation_screen.dart';
-import '../../modules/login/view/splash_screen.dart';
+import 'package:hris_mobile/modules/login/view/login_screen.dart';
+import 'package:hris_mobile/modules/login/view/navigation_screen.dart';
+import 'package:hris_mobile/modules/login/view/splash_screen.dart';
 
 class AppRouter {
   Route? onGenerateRoute(RouteSettings settings) {
@@ -12,8 +16,22 @@ class AppRouter {
           builder: (_) => LoginScreen(),
         );
       case AttendanceScreen.id:
+        var locationRepo = LocationRepo();
         return MaterialPageRoute(
-          builder: (_) => AttendanceScreen(),
+          builder: (context) {
+            var _myLocale = Localizations.localeOf(context);
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider<LocationCubit>(
+                  create: (_) => LocationCubit(locationRepo: locationRepo),
+                ),
+                BlocProvider<AttendanceCubit>(
+                  create: (_) => AttendanceCubit(_myLocale),
+                ),
+              ],
+              child: AttendanceScreen(),
+            );
+          },
         );
       case NavigationScreen.id:
         return MaterialPageRoute(
@@ -25,6 +43,6 @@ class AppRouter {
   }
 
   List<Route<dynamic>> onGenerateInitialRoutes(String route) {
-    return [MaterialPageRoute(builder: (_) => AttendanceScreen())];
+    return [MaterialPageRoute(builder: (_) => LoginScreen())];
   }
 }

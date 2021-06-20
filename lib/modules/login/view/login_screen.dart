@@ -4,11 +4,11 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:hris_mobile/modules/attendance/view/attendance_screen.dart';
 import 'package:kartal/kartal.dart';
 
-import '../../../l10n/l10n.dart';
-import '../cubit/auth_cubit.dart';
-import 'components/login_appbar.dart';
-import 'components/login_header.dart';
-import 'navigation_screen.dart';
+import 'package:hris_mobile/l10n/l10n.dart';
+import 'package:hris_mobile/modules/login/cubit/auth_cubit.dart';
+import 'package:hris_mobile/modules/login/view/components/login_appbar.dart';
+import 'package:hris_mobile/modules/login/view/components/login_header.dart';
+import 'package:hris_mobile/modules/login/view/navigation_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const id = 'login_screen';
@@ -32,11 +32,12 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: context.verticalPaddingNormal,
         ),
         onPressed: () {
-          if (_form.currentState!.saveAndValidate()) {
-            String username = _form.currentState!.value['username'];
-            String password = _form.currentState!.value['password'];
-            _authCubit.signIn(username, password);
-          }
+          context.navigateToReset(AttendanceScreen.id);
+          // if (_form.currentState!.saveAndValidate()) {
+          //   String username = _form.currentState!.value['username'];
+          //   String password = _form.currentState!.value['password'];
+          //   _authCubit.signIn(username, password);
+          // }
         },
         child: const Text('CONTINUE'),
       );

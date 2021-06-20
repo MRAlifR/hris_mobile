@@ -5,18 +5,17 @@
         "description": "Text yang muncul di AppBar pada Halaman Penghitung"
     },
 
+
+    "home": "Home",
+
+
+    "login": "Login",
     "upperLoginHeader": "Selamat Datang",
-
     "lowerLoginHeader": "Masuk menggunakan email dan password kamu \natau lanjutkan dengan akun media sosial",
-
     "emailLabel": "Email atau Username",
-
     "emailHint": "Masukkan email atau username kamu",
-
     "passwordLabel": "Password",
-
     "passwordHint": "Masukkan password kamu",
-
     "loginSuccessMessage": "Selamat datang {personName}",
     "@loginSuccessMessage": {
         "description": "Login success message with a person name parameter",
@@ -27,6 +26,20 @@
           }
         }
       },
+    "loginFailedMessage": "Login gagal",
 
-    "loginFailedMessage": "Login gagal"
+
+    "attendance": "Kehadiran",
+    "location": "Lokasi",
+    "locationNotFound": "Lokasi tidak ditemukan",
+    "checkIn": "Cek In",
+    "checkOut": "Cek Out",
+    "workingHours": "Jam Kerja",
+
+    
+    "profile": "Profil",
+
+
+    "more": "Lebih Banyak"
+
 }

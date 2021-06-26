@@ -1,49 +1,65 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hris_mobile/modules/attendance/cubit/location_cubit.dart';
 import 'package:hris_mobile/utils/extension/extension.dart';
 
 part 'attendance_state.dart';
 part 'attendance_cubit.freezed.dart';
 
-enum AttendanceStatus {
-  checkIn,
-  checkOut,
-}
-
 class AttendanceCubit extends Cubit<AttendanceState> {
-  AttendanceCubit(this._locale)
-      : super(AttendanceState(
-          attendanceStatus: AttendanceStatus.checkIn,
-          currentDate: DateTime.now().dateToString(_locale),
-          checkInDuration: Duration.zero,
-          checkOutDuration: Duration.zero,
-          checkIn: '--:--',
-          checkOut: '--:--',
-          workHour: '--:--',
+  AttendanceCubit({
+    required Locale locale,
+    required LocationCubit locationCubit,
+  })  : _locale = locale,
+        _locationCubit = locationCubit,
+        super(AttendanceState.initial(
+          currentDate: DateTime.now().toStringAsDate(locale),
         ));
 
   final Locale _locale;
+  final LocationCubit _locationCubit;
 
   void checkInButton() {
-    emit(state.copyWith(
-      attendanceStatus: AttendanceStatus.checkOut,
-      currentDate: DateTime.now().dateToString(_locale),
-      checkIn: DateTime.now().timeToString,
-      checkInDuration: DateTime.now().timeDuration,
-    ));
+    var _currentDate = DateTime.now();
+    emit(
+      AttendanceState.checkIn(
+        currentDate: DateTime.now().toStringAsDate(_locale),
+        checkIn: _currentDate.toStringAsTime,
+        checkInAddress: getAddress(),
+        checkInDuration: _currentDate.timeDuration,
+      ),
+    );
   }
 
   void checkOutButton() {
-    var currentDate = DateTime.now();
-    emit(state.copyWith(
-      attendanceStatus: AttendanceStatus.checkIn,
-      currentDate: DateTime.now().dateToString(_locale),
-      checkOut: currentDate.timeToString,
-      checkOutDuration: currentDate.timeDuration,
-      workHour: currentDate.timeDuration
-          .timeSubstract(state.checkInDuration)
-          .timeToString,
-    ));
+    var _currentDate = DateTime.now();
+    state.maybeMap(
+      checkIn: (checkInState) {
+        emit(AttendanceState.checkOut(
+          currentDate: _currentDate.toStringAsDate(_locale),
+          checkIn: checkInState.checkIn,
+          checkInAddress: checkInState.checkInAddress,
+          checkInDuration: checkInState.checkInDuration,
+          checkOut: _currentDate.toStringAsTime,
+          checkOutAddress: getAddress(),
+          checkOutDuration: _currentDate.timeDuration,
+          workHour: _currentDate.timeDuration
+              .substractTime(checkInState.checkInDuration)
+              .toStringAsTime,
+        ));
+      },
+      orElse: () {
+        emit(AttendanceState.initial(
+          currentDate: _currentDate.toStringAsDate(_locale),
+        ));
+      },
+    );
   }
+
+  String getAddress() => _locationCubit.state.maybeMap(
+        changed: (state) => state.address,
+        failed: (state) => state.message,
+        orElse: () => 'Location not found',
+      );
 }

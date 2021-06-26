@@ -17,7 +17,7 @@ import 'package:odoo_rpc/odoo_rpc.dart';
 class App extends StatelessWidget {
   App({Key? key, required this.odooURL}) : super(key: key);
 
-  late final String odooURL;
+  final String odooURL;
 
   @override
   Widget build(BuildContext context) {

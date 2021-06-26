@@ -28,6 +28,8 @@ dependencies:
   geocoding: ^2.0.0
   google_maps_flutter: ^2.0.3
   sliding_sheet: ^0.5.0
+  table_calendar: ^3.0.0
+  jiffy: ^4.1.0
 
 dev_dependencies:
   flutter_test:

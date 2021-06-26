@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hris_mobile/modules/attendance/cubit/attendance_cubit.dart';
 import 'package:hris_mobile/modules/attendance/cubit/location_cubit.dart';
 import 'package:hris_mobile/modules/attendance/repository/location_repo.dart';
+import 'package:hris_mobile/modules/attendance/view/attendance_list_screen.dart';
 import 'package:hris_mobile/modules/attendance/view/attendance_screen.dart';
 import 'package:hris_mobile/modules/login/view/login_screen.dart';
 import 'package:hris_mobile/modules/login/view/navigation_screen.dart';
@@ -20,18 +21,27 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) {
             var _myLocale = Localizations.localeOf(context);
+            var _locationCubit = LocationCubit(locationRepo: locationRepo);
+            var _attendanceCubit = AttendanceCubit(
+              locale: _myLocale,
+              locationCubit: _locationCubit,
+            );
             return MultiBlocProvider(
               providers: [
                 BlocProvider<LocationCubit>(
-                  create: (_) => LocationCubit(locationRepo: locationRepo),
+                  create: (_) => _locationCubit,
                 ),
                 BlocProvider<AttendanceCubit>(
-                  create: (_) => AttendanceCubit(_myLocale),
+                  create: (_) => _attendanceCubit,
                 ),
               ],
               child: AttendanceScreen(),
             );
           },
+        );
+      case AttendanceListScreen.id:
+        return MaterialPageRoute(
+          builder: (_) => AttendanceListScreen(),
         );
       case NavigationScreen.id:
         return MaterialPageRoute(

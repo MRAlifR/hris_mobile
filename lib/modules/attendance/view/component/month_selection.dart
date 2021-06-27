@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hris_mobile/utils/extension/extension.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:kartal/kartal.dart';
@@ -20,6 +21,7 @@ class _MonthSelectionState extends State<MonthSelection> {
       height: 60,
       width: context.width,
       decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey.shade200),
         shape: BoxShape.rectangle,
         color: Colors.white,
         boxShadow: [
@@ -58,9 +60,9 @@ class _MonthSelectionState extends State<MonthSelection> {
               children: [
                 const WidgetSpan(
                   alignment: PlaceholderAlignment.middle,
-                  child: Icon(
-                    Icons.calendar_today,
-                    size: 22,
+                  child: FaIcon(
+                    FontAwesomeIcons.calendarAlt,
+                    size: 18,
                     color: Colors.blue,
                   ),
                 ),
@@ -71,9 +73,9 @@ class _MonthSelectionState extends State<MonthSelection> {
                   text: _date.toStringAsMonthYear(_locale),
                   style: const TextStyle(
                     color: Colors.blue,
-                    fontSize: 15,
+                    fontSize: 14,
                     fontWeight: FontWeight.w700,
-                    letterSpacing: -0.5,
+                    letterSpacing: -0.3,
                   ),
                 ),
               ],

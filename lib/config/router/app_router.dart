@@ -17,27 +17,8 @@ class AppRouter {
           builder: (_) => LoginScreen(),
         );
       case AttendanceScreen.id:
-        var locationRepo = LocationRepo();
         return MaterialPageRoute(
-          builder: (context) {
-            var _myLocale = Localizations.localeOf(context);
-            var _locationCubit = LocationCubit(locationRepo: locationRepo);
-            var _attendanceCubit = AttendanceCubit(
-              locale: _myLocale,
-              locationCubit: _locationCubit,
-            );
-            return MultiBlocProvider(
-              providers: [
-                BlocProvider<LocationCubit>(
-                  create: (_) => _locationCubit,
-                ),
-                BlocProvider<AttendanceCubit>(
-                  create: (_) => _attendanceCubit,
-                ),
-              ],
-              child: AttendanceScreen(),
-            );
-          },
+          builder: (_) => AttendanceScreen(),
         );
       case AttendanceListScreen.id:
         return MaterialPageRoute(

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hris_mobile/l10n/l10n.dart';
 import 'package:hris_mobile/modules/attendance/view/component/month_selection.dart';
 import 'package:hris_mobile/utils/ui/background/background.dart';
 import 'package:hris_mobile/utils/extension/extension.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:kartal/kartal.dart';
+import 'dart:math' as math;
 
 class AttendanceListScreen extends StatefulWidget {
   AttendanceListScreen({Key? key}) : super(key: key);
@@ -33,122 +35,14 @@ class _AttendanceListScreenState extends State<AttendanceListScreen> {
     final _l10n = context.l10n;
     final _locale = Localizations.localeOf(context);
 
-    List<DataRow> getDataRow() {
-      var dataRow = <DataRow>[];
-      for (var x = 0; x < 9; x++) {
-        dataRow.add(
-          DataRow(
-            cells: [
-              DataCell(
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.shade300),
-                      shape: BoxShape.rectangle,
-                    ),
-                    child: Column(
-                      children: [
-                        const Text(
-                          '11',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: -2,
-                          ),
-                        ),
-                        const Text(
-                          'TUE',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              DataCell(
-                RichText(
-                  textAlign: TextAlign.left,
-                  overflow: TextOverflow.ellipsis,
-                  text: const TextSpan(
-                    children: [
-                      WidgetSpan(
-                        child: Icon(
-                          Icons.south_east,
-                          size: 18,
-                          color: Colors.blue,
-                        ),
-                      ),
-                      WidgetSpan(
-                        child: SizedBox(width: 3),
-                      ),
-                      TextSpan(
-                        text: '09:15',
-                        style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.green,
-                            fontWeight: FontWeight.w900),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              DataCell(
-                RichText(
-                  textAlign: TextAlign.left,
-                  overflow: TextOverflow.ellipsis,
-                  text: const TextSpan(
-                    children: [
-                      WidgetSpan(
-                        child: Icon(
-                          Icons.north_east,
-                          size: 18,
-                          color: Colors.blue,
-                        ),
-                      ),
-                      WidgetSpan(
-                        child: SizedBox(width: 3),
-                      ),
-                      TextSpan(
-                        text: '18:45',
-                        style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.green,
-                            fontWeight: FontWeight.w900),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              DataCell(
-                RichText(
-                  textAlign: TextAlign.left,
-                  overflow: TextOverflow.ellipsis,
-                  text: const TextSpan(
-                    children: [
-                      TextSpan(
-                        text: '08h 30m',
-                        style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.green,
-                            fontWeight: FontWeight.w900),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
+    Widget getDataRow() {
+      var dataRow = <Widget>[];
+      for (var x = 0; x < 5; x++) {
+        dataRow.add(AttendanceRow());
       }
-      return dataRow;
+      return Column(
+        children: dataRow,
+      );
     }
 
     return Scaffold(
@@ -179,53 +73,8 @@ class _AttendanceListScreenState extends State<AttendanceListScreen> {
               child: Column(
                 children: [
                   MonthSelection(),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: DataTable(
-                        dataRowHeight: 65,
-                        columnSpacing: 30,
-                        columns: [
-                          const DataColumn(
-                            label: Text(
-                              'Date',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          const DataColumn(
-                            label: Text(
-                              'Check In',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          const DataColumn(
-                            label: Text(
-                              'Check Out',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          const DataColumn(
-                            label: Text(
-                              'Working Hours',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ],
-                        rows: getDataRow(),
-                      ),
-                    ),
-                  ),
+                  AttendanceRowHeader(),
+                  getDataRow(),
                 ],
               ),
             ),
@@ -252,6 +101,244 @@ class _AttendanceListScreenState extends State<AttendanceListScreen> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class AttendanceRowHeader extends StatelessWidget {
+  const AttendanceRowHeader({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: context.width,
+      height: context.height * 0.045,
+      color: '#FCF9FB'.toColor(),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            padding: const EdgeInsets.only(left: 24),
+            width: context.width * 0.2,
+            child: const Text(
+              'Date',
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Container(
+            width: context.width * 0.2,
+            child: const Text(
+              'Check In',
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Container(
+            width: context.width * 0.2,
+            child: const Text(
+              'Check Out',
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+          ),
+          const SizedBox(width: 17),
+          Container(
+            padding: const EdgeInsets.only(right: 18),
+            width: context.width * 0.3,
+            child: const Text(
+              'Working Hr\'s',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class AttendanceRow extends StatelessWidget {
+  const AttendanceRow({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Flex(
+      direction: Axis.vertical,
+      children: [
+        Container(
+          width: context.width,
+          height: context.height * 0.06,
+          decoration: const BoxDecoration(
+            color: Colors.white24,
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                width: context.width * 0.2,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 3,
+                    horizontal: 17,
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade300),
+                      shape: BoxShape.rectangle,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          '11',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: -2,
+                          ),
+                        ),
+                        const Text(
+                          'TUE',
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Container(
+                width: context.width * 0.2,
+                child: RichText(
+                  textAlign: TextAlign.left,
+                  overflow: TextOverflow.ellipsis,
+                  text: TextSpan(
+                    children: [
+                      WidgetSpan(
+                        child: Transform.rotate(
+                          angle: 45 * math.pi / 180,
+                          child: const FaIcon(
+                            FontAwesomeIcons.arrowRight,
+                            size: 15,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
+                      const WidgetSpan(
+                        child: SizedBox(width: 1),
+                      ),
+                      const TextSpan(
+                        text: '09:15',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.green,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Container(
+                width: context.width * 0.2,
+                child: RichText(
+                  textAlign: TextAlign.left,
+                  overflow: TextOverflow.ellipsis,
+                  text: TextSpan(
+                    children: [
+                      WidgetSpan(
+                        child: Transform.rotate(
+                          angle: 45 * math.pi / 180,
+                          child: const FaIcon(
+                            FontAwesomeIcons.arrowUp,
+                            size: 15,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
+                      const WidgetSpan(
+                        child: SizedBox(width: 1),
+                      ),
+                      const TextSpan(
+                        text: '18:45',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.green,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(width: 15),
+              Container(
+                width: context.width * 0.21,
+                child: RichText(
+                  textAlign: TextAlign.right,
+                  overflow: TextOverflow.ellipsis,
+                  text: const TextSpan(
+                    children: [
+                      TextSpan(
+                        text: '08h 30m',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.green,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                width: context.width * 0.1,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: InkWell(
+                    onTap: () {},
+                    child: const Padding(
+                      padding: EdgeInsets.only(
+                        left: 3,
+                      ),
+                      child: Icon(
+                        Icons.chevron_right,
+                        size: 20,
+                        color: Colors.blueGrey,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Divider(
+          thickness: 1,
+          indent: context.width * 0.22,
+          color: Colors.grey.shade200,
+        ),
+      ],
     );
   }
 }

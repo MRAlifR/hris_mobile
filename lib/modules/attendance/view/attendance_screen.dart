@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hris_mobile/l10n/l10n.dart';
 import 'package:hris_mobile/modules/attendance/cubit/attendance_cubit.dart';
 import 'package:hris_mobile/modules/attendance/cubit/location_cubit.dart';
+import 'package:hris_mobile/modules/attendance/repository/location_repo.dart';
 import 'package:hris_mobile/modules/attendance/view/attendance_list_screen.dart';
 import 'package:hris_mobile/modules/attendance/view/component/attendance_popup.dart';
 import 'package:hris_mobile/modules/attendance/view/component/digital_clock.dart';
@@ -16,29 +17,66 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:supercharged/supercharged.dart';
 
-class AttendanceScreen extends StatefulWidget {
+class AttendanceScreen extends StatelessWidget {
   static const id = 'attendance_screen';
 
   @override
-  _AttendanceScreenState createState() => _AttendanceScreenState();
+  Widget build(BuildContext context) {
+    var _myLocale = Localizations.localeOf(context);
+
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<LocationCubit>(
+          create: (context) {
+            var locationRepo = LocationRepo();
+            return LocationCubit(locationRepo: locationRepo);
+          },
+        ),
+        BlocProvider<AttendanceCubit>(create: (context) {
+          var locationCubit = BlocProvider.of<LocationCubit>(context);
+          return AttendanceCubit(
+            locale: _myLocale,
+            locationCubit: locationCubit,
+          );
+        }),
+      ],
+      child: AttendanceScreenView(),
+    );
+  }
 }
 
-class _AttendanceScreenState extends State<AttendanceScreen> {
+class AttendanceScreenView extends StatefulWidget {
+  AttendanceScreenView({Key? key}) : super(key: key);
+
+  @override
+  _AttendanceScreenViewState createState() => _AttendanceScreenViewState();
+}
+
+class _AttendanceScreenViewState extends State<AttendanceScreenView>
+    with WidgetsBindingObserver {
   final checkInColorList = [
     '#3E80DD'.toColor(),
     '#6672D6'.toColor(),
     '#9A87E4'.toColor()
   ];
+
   final checkOutColorList = [
     '#8E3098'.toColor(),
     '#C8307D'.toColor(),
     '#F04980'.toColor(),
   ];
 
+  late AttendanceCubit _attendanceCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _attendanceCubit = BlocProvider.of<AttendanceCubit>(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     final _l10n = context.l10n;
-    final _attendanceCubit = BlocProvider.of<AttendanceCubit>(context);
 
     return BlocListener<AttendanceCubit, AttendanceState>(
       listener: (context, state) {

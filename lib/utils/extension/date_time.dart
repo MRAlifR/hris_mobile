@@ -23,6 +23,13 @@ extension DateTimeExtension on DateTime {
         locale.languageCode,
       ).format(this);
 
+  String toStringAsDay(Locale locale) => DateFormat(
+        'EEE',
+        locale.languageCode,
+      ).format(this);
+
+  String toStringAsDateOnly(Locale locale) => this.day.toString().padLeft(2);
+
   DateTime replace({int? day, int? month, int? year}) =>
       DateTime(year ?? this.year, month ?? this.month, day ?? this.day);
 

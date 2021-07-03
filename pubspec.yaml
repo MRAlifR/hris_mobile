@@ -32,6 +32,7 @@ dependencies:
   jiffy: ^4.1.0
   font_awesome_flutter: ^9.1.0
   expandable: ^5.0.1
+  persistent_bottom_nav_bar: ^4.0.2
 
 dev_dependencies:
   flutter_test:

@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
 
-import '../../../utils/services/networking/network_exceptions.dart';
+import '../../../core/error/network_exceptions.dart';
 import '../repository/auth_repo.dart';
 
 part 'auth_cubit.freezed.dart';
@@ -19,7 +19,7 @@ class AuthCubit extends Cubit<AuthState> {
       success: (session) {
         emit(AuthState.authenticated(session));
       },
-      failure: (NetworkExceptions e) {
+      failure: (error) {
         emit(const AuthState.unauthenticated());
       },
     );
@@ -32,8 +32,8 @@ class AuthCubit extends Cubit<AuthState> {
       success: (session) {
         emit(AuthState.authenticated(session));
       },
-      failure: (NetworkExceptions e) {
-        emit(AuthState.failed(e));
+      failure: (error) {
+        emit(AuthState.failed(error));
       },
     );
   }
@@ -45,8 +45,8 @@ class AuthCubit extends Cubit<AuthState> {
       success: (message) {
         emit(const AuthState.unauthenticated());
       },
-      failure: (NetworkExceptions e) {
-        emit(AuthState.failed(e));
+      failure: (error) {
+        emit(AuthState.failed(error));
       },
     );
   }

@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hris_mobile/core/utils/ui/background/background.dart';
 import 'package:hris_mobile/l10n/l10n.dart';
 import 'package:hris_mobile/core/device/location_repo.dart';
-import 'package:hris_mobile/modules/attendance/data/repository/AttendanceRepoImpl.dart';
+import 'package:hris_mobile/modules/attendance/data/repository/attendance_repo_impl.dart';
 import 'package:hris_mobile/modules/attendance/presentation/component/attendance_popup.dart';
 import 'package:hris_mobile/modules/attendance/presentation/component/digital_clock.dart';
 import 'package:hris_mobile/modules/attendance/presentation/component/gradient_icon.dart';

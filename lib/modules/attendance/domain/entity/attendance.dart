@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'attendance.g.dart';
@@ -57,9 +56,14 @@ class Attendance {
   Map<String, dynamic> toJson() => _$AttendanceToJson(this);
 
   static dynamic _dateTimeFalseFromJson(dynamic data) {
-    if (data == false) {
+    if ([false, null].contains(data))
       return null;
-    }
-    return DateTime.parse(data as String).add(Duration(hours: 7));
+    else
+      return DateTime.parse(data as String).add(const Duration(hours: 7));
+  }
+
+  @override
+  String toString() {
+    return 'Attendance(checkIn: ${checkIn})';
   }
 }

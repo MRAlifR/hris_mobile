@@ -101,10 +101,14 @@ class AttendanceRow extends StatelessWidget {
     Key? key,
     required this.day,
     required this.date,
+    required this.checkInTime,
+    this.checkOutTime = '--:--',
   }) : super(key: key);
 
   final String day;
   final String date;
+  final String checkInTime;
+  final String checkOutTime;
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +121,12 @@ class AttendanceRow extends StatelessWidget {
           tapBodyToCollapse: true,
           hasIcon: false,
         ),
-        header: AttendanceListRowHeader(date: date, day: day),
+        header: AttendanceListRowHeader(
+          date: date,
+          day: day,
+          checkInTime: checkInTime,
+          checkOutTime: checkOutTime,
+        ),
         collapsed: Container(),
         expanded: const AttendanceListRowBottom(),
       ),
@@ -130,10 +139,14 @@ class AttendanceListRowHeader extends StatelessWidget {
     Key? key,
     required this.day,
     required this.date,
+    required this.checkInTime,
+    this.checkOutTime = '--:--',
   }) : super(key: key);
 
   final String day;
   final String date;
+  final String checkInTime;
+  final String checkOutTime;
 
   @override
   Widget build(BuildContext context) {
@@ -201,8 +214,8 @@ class AttendanceListRowHeader extends StatelessWidget {
                     const WidgetSpan(
                       child: SizedBox(width: 1),
                     ),
-                    const TextSpan(
-                      text: '09:15',
+                    TextSpan(
+                      text: checkInTime,
                       style: textStyle,
                     ),
                   ],
@@ -227,8 +240,8 @@ class AttendanceListRowHeader extends StatelessWidget {
                     const WidgetSpan(
                       child: SizedBox(width: 1),
                     ),
-                    const TextSpan(
-                      text: '18:45',
+                    TextSpan(
+                      text: checkOutTime,
                       style: textStyle,
                     ),
                   ],

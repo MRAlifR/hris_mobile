@@ -4,15 +4,17 @@ import 'package:hris_mobile/core/extension/extension.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:kartal/kartal.dart';
 
-class MonthSelection extends StatefulWidget {
-  MonthSelection({Key? key}) : super(key: key);
+class MonthSelection extends StatelessWidget {
+  MonthSelection({
+    Key? key,
+    required this.date,
+    required this.onLeftTap,
+    required this.onRightTap,
+  }) : super(key: key);
 
-  @override
-  _MonthSelectionState createState() => _MonthSelectionState();
-}
-
-class _MonthSelectionState extends State<MonthSelection> {
-  DateTime _date = DateTime.now();
+  final DateTime date;
+  final VoidCallback onLeftTap;
+  final VoidCallback onRightTap;
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +39,7 @@ class _MonthSelectionState extends State<MonthSelection> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           InkWell(
-            onTap: () {
-              setState(() {
-                _date = _date.minus(month: 1);
-              });
-            },
+            onTap: onLeftTap,
             child: const Padding(
               padding: EdgeInsets.symmetric(
                 vertical: 10,
@@ -70,7 +68,7 @@ class _MonthSelectionState extends State<MonthSelection> {
                   child: SizedBox(width: 7),
                 ),
                 TextSpan(
-                  text: _date.toStringAsMonthYear(_locale),
+                  text: date.toStringAsMonthYear(_locale),
                   style: const TextStyle(
                     color: Colors.blue,
                     fontSize: 14,
@@ -82,11 +80,7 @@ class _MonthSelectionState extends State<MonthSelection> {
             ),
           ),
           InkWell(
-            onTap: () {
-              setState(() {
-                _date = _date.plus(month: 1);
-              });
-            },
+            onTap: onRightTap,
             child: const Padding(
               padding: EdgeInsets.symmetric(
                 vertical: 10,

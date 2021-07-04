@@ -13,9 +13,10 @@ extension DateTimeExtension on DateTime {
   String get toStringAsTime =>
       '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
 
-  String toStringAsDate(Locale locale) => DateFormat(
+  // Example. Tuesday, Jan 24
+  String toStringAsDate([Locale? locale]) => DateFormat(
         'EEEE, MMM dd',
-        locale.languageCode,
+        locale?.languageCode ?? 'id',
       ).format(this);
 
   String toStringAsMonthYear(Locale locale) => DateFormat(
@@ -23,12 +24,14 @@ extension DateTimeExtension on DateTime {
         locale.languageCode,
       ).format(this);
 
+  String toStringAs(String format) => DateFormat(format).format(this);
+
   String toStringAsDay(Locale locale) => DateFormat(
         'EEE',
         locale.languageCode,
       ).format(this);
 
-  String toStringAsDateOnly(Locale locale) => this.day.toString().padLeft(2);
+  String toStringAsDateOnly(Locale locale) => day.toString().padLeft(2);
 
   DateTime replace({int? day, int? month, int? year}) =>
       DateTime(year ?? this.year, month ?? this.month, day ?? this.day);

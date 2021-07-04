@@ -3,7 +3,8 @@ import 'package:hris_mobile/core/utils/result.dart';
 import 'package:hris_mobile/modules/attendance/domain/entity/attendance.dart';
 
 abstract class AttendanceRepo {
-  Future<Result<NetworkExceptions, List<Attendance>>> getAttendanceList([
+  Future<Result<NetworkExceptions, List<Attendance>>> getAttendancesByMonth(
+    DateTime month, [
     int? employeeId,
   ]);
 }

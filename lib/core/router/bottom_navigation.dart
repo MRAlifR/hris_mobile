@@ -54,7 +54,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
       screens: _buildScreens(),
       items: _navBarsItems(),
       resizeToAvoidBottomInset: true,
-      stateManagement: true,
+      stateManagement: false,
       hideNavigationBarWhenKeyboardShows: true,
       decoration: NavBarDecoration(
         borderRadius: BorderRadius.circular(10.0),

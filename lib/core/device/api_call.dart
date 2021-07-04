@@ -11,17 +11,17 @@ class ApiCall {
     this.baseUrl, {
     this.interceptors,
   }) {
-    _dio
+    dio
       ..options.baseUrl = baseUrl
       ..options.connectTimeout = _defaultConnectTimeout
       ..options.receiveTimeout = _defaultReceiveTimeout
       ..httpClientAdapter
       ..options.headers = {'Content-Type': 'application/json; charset=UTF-8'};
     if (interceptors?.isNotEmpty ?? false) {
-      _dio.interceptors.addAll(interceptors!);
+      dio.interceptors.addAll(interceptors!);
     }
     if (kDebugMode) {
-      _dio.interceptors.add(LogInterceptor(
+      dio.interceptors.add(LogInterceptor(
           responseBody: true,
           error: true,
           requestHeader: false,
@@ -33,7 +33,7 @@ class ApiCall {
 
   final List<Interceptor>? interceptors;
   final String baseUrl;
-  final Dio _dio = Dio();
+  final Dio dio = Dio();
 
   Future<dynamic> get(
     String uri, {
@@ -43,7 +43,7 @@ class ApiCall {
     ProgressCallback? onReceiveProgress,
   }) async {
     try {
-      var response = await _dio.get(
+      var response = await dio.get(
         uri,
         queryParameters: queryParameters,
         options: options,
@@ -70,7 +70,7 @@ class ApiCall {
     ProgressCallback? onReceiveProgress,
   }) async {
     try {
-      var response = await _dio.post(
+      var response = await dio.post(
         uri,
         data: data,
         queryParameters: queryParameters,

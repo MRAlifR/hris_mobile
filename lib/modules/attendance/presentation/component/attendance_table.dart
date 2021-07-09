@@ -1,9 +1,19 @@
+// Dart imports:
 import 'dart:math' as math;
+
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:supercharged/supercharged.dart';
-import 'package:kartal/kartal.dart';
+
+// Package imports:
 import 'package:expandable/expandable.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:kartal/kartal.dart';
+import 'package:supercharged/supercharged.dart';
+
+// Project imports:
+import 'package:hris_mobile/core/extension/extension.dart';
+import 'package:hris_mobile/l10n/l10n.dart';
+import 'package:hris_mobile/modules/attendance/data/model/attendance_item.dart';
 
 class AttendanceTableLayout extends StatelessWidget {
   const AttendanceTableLayout({
@@ -97,21 +107,42 @@ class AttendanceListHeader extends StatelessWidget {
 }
 
 class AttendanceRow extends StatelessWidget {
-  const AttendanceRow({
-    Key? key,
-    required this.day,
-    required this.date,
-    required this.checkInTime,
-    this.checkOutTime = '--:--',
-  }) : super(key: key);
+  const AttendanceRow(this.attendanceItem, [this.dateTime]);
 
-  final String day;
-  final String date;
-  final String checkInTime;
-  final String checkOutTime;
+  const AttendanceRow.empty(this.dateTime, [this.attendanceItem]);
+
+  final AttendanceItem? attendanceItem;
+  final DateTime? dateTime;
 
   @override
   Widget build(BuildContext context) {
+    final _locale = Localizations.localeOf(context);
+
+    AttendanceListRowHeader _buildAttendanceListHeader() {
+      if (attendanceItem == null) {
+        return AttendanceListRowHeader(
+          checkIn: '--:--',
+          checkOut: '--:--',
+          workedHour: '--:--',
+          date: dateTime!.toStringAsDateOnly(_locale),
+          day: dateTime!.toStringAsDay(_locale),
+        );
+      } else {
+        var cIn = attendanceItem?.checkIn?.toStringAsTime ?? '--:--';
+        var cOut = attendanceItem?.checkOut?.toStringAsTime ?? '--:--';
+        var date = attendanceItem?.checkIn?.toStringAsDateOnly(_locale) ?? '01';
+        var day = attendanceItem?.checkIn?.toStringAsDay(_locale) ?? 'Mon';
+        var wHour = attendanceItem!.workedHours * 3600;
+        return AttendanceListRowHeader(
+          checkIn: cIn,
+          checkOut: cOut,
+          date: date,
+          day: day,
+          workedHour: Duration(seconds: wHour.toInt()).toStringAsTimeHM,
+        );
+      }
+    }
+
     return ExpandableNotifier(
       child: ExpandablePanel(
         theme: const ExpandableThemeData(
@@ -121,12 +152,7 @@ class AttendanceRow extends StatelessWidget {
           tapBodyToCollapse: true,
           hasIcon: false,
         ),
-        header: AttendanceListRowHeader(
-          date: date,
-          day: day,
-          checkInTime: checkInTime,
-          checkOutTime: checkOutTime,
-        ),
+        header: _buildAttendanceListHeader(),
         collapsed: Container(),
         expanded: const AttendanceListRowBottom(),
       ),
@@ -136,17 +162,18 @@ class AttendanceRow extends StatelessWidget {
 
 class AttendanceListRowHeader extends StatelessWidget {
   const AttendanceListRowHeader({
-    Key? key,
-    required this.day,
     required this.date,
-    required this.checkInTime,
-    this.checkOutTime = '--:--',
-  }) : super(key: key);
+    required this.day,
+    required this.checkIn,
+    required this.checkOut,
+    required this.workedHour,
+  });
 
-  final String day;
   final String date;
-  final String checkInTime;
-  final String checkOutTime;
+  final String day;
+  final String checkIn;
+  final String checkOut;
+  final String workedHour;
 
   @override
   Widget build(BuildContext context) {
@@ -155,6 +182,7 @@ class AttendanceListRowHeader extends StatelessWidget {
       color: Colors.green,
       fontWeight: FontWeight.w500,
     );
+
     return Container(
       color: Colors.white,
       child: Flex(
@@ -215,7 +243,7 @@ class AttendanceListRowHeader extends StatelessWidget {
                       child: SizedBox(width: 1),
                     ),
                     TextSpan(
-                      text: checkInTime,
+                      text: checkIn,
                       style: textStyle,
                     ),
                   ],
@@ -241,7 +269,7 @@ class AttendanceListRowHeader extends StatelessWidget {
                       child: SizedBox(width: 1),
                     ),
                     TextSpan(
-                      text: checkOutTime,
+                      text: checkOut,
                       style: textStyle,
                     ),
                   ],
@@ -252,10 +280,10 @@ class AttendanceListRowHeader extends StatelessWidget {
               RichText(
                 textAlign: TextAlign.right,
                 overflow: TextOverflow.ellipsis,
-                text: const TextSpan(
+                text: TextSpan(
                   children: [
                     TextSpan(
-                      text: '08h 30m',
+                      text: workedHour,
                       style: textStyle,
                     ),
                   ],

@@ -5,10 +5,15 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hris_mobile/modules/counter/counter.dart';
+
+// Project imports:
 import 'package:hris_mobile/l10n/l10n.dart';
+import 'package:hris_mobile/modules/counter/counter.dart';
 
 class CounterPage extends StatelessWidget {
   const CounterPage({Key? key}) : super(key: key);

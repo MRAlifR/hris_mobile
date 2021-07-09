@@ -1,7 +1,12 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:hris_mobile/core/utils/ui/painter/painter.dart';
+
+// Package imports:
 import 'package:kartal/kartal.dart';
 import 'package:supercharged/supercharged.dart';
+
+// Project imports:
+import 'package:hris_mobile/core/utils/ui/painter/painter.dart';
 
 class TopLeftBackground extends StatelessWidget {
   const TopLeftBackground({Key? key}) : super(key: key);

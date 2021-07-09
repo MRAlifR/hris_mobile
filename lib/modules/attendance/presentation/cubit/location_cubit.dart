@@ -1,8 +1,12 @@
+// Dart imports:
 import 'dart:async';
 
+// Package imports:
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:geolocator/geolocator.dart';
+
+// Project imports:
 import 'package:hris_mobile/core/device/location_repo.dart';
 
 part 'location_state.dart';

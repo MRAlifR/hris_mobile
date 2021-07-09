@@ -1,7 +1,11 @@
+// Dart imports:
 import 'dart:io';
 
-import 'package:dio/dio.dart';
+// Flutter imports:
 import 'package:flutter/foundation.dart';
+
+// Package imports:
+import 'package:dio/dio.dart';
 
 const _defaultConnectTimeout = 10000;
 const _defaultReceiveTimeout = 10000;

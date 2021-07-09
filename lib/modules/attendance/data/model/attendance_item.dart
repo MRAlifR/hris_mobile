@@ -1,7 +1,13 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hris_mobile/modules/attendance/domain/entity/attendance.dart';
+// Package imports:
 import 'package:collection/collection.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hris_mobile/core/extension/extension.dart';
 import 'package:intl/intl.dart';
+
+// Project imports:
+import 'package:hris_mobile/modules/attendance/domain/entity/attendance.dart';
+
+// Project imports:
 
 part 'attendance_item.freezed.dart';
 
@@ -12,32 +18,37 @@ class AttendanceItem with _$AttendanceItem {
 
   DateTime? get checkIn {
     var checkInList = attendances.map((e) => e.checkIn);
+    if (checkInList.isEmpty) return null;
     return checkInList.reduce((a, b) => a!.isBefore(b!) ? a : b);
   }
 
   DateTime? get checkOut {
     var checkOutList = attendances.map((e) => e.checkOut);
+    if (checkOutList.isEmpty) return null;
+    print(checkOutList);
     return checkOutList.reduce((a, b) => a!.isAfter(b!) ? a : b);
   }
 
-  double? get workedHours {
-    var durationInSecond = checkOut?.difference(checkIn!).inSeconds;
-    return durationInSecond! / 3600;
+  double get workedHours {
+    if (checkIn == null) return 0;
+    var durationInSecond = checkOut?.difference(checkIn!).inSeconds ?? 0;
+    return durationInSecond / 3600;
   }
 
-  static List<AttendanceItem> fromAttendances(
-    List<Attendance> attendances,
+  // Group by month
+  static Map<String, List<AttendanceItem>> groupByMonth(
+    List<AttendanceItem> items,
   ) {
-    var attendanceItems = <AttendanceItem>[];
-    var attendanceGroup = attendances.groupListsBy(
-      (attendance) => DateFormat('dd-MM-yyyy').format(attendance.checkIn!),
+    var attendanceGroup = items.groupListsBy(
+      (item) => item.checkIn!.toStringAs('MM-yyyy'),
     );
-    for (var key in attendanceGroup.keys) {
-      if (attendanceGroup[key]!.isNotEmpty) {
-        var att = attendanceGroup[key] as List<Attendance>;
-        attendanceItems.add(AttendanceItem(att));
-      }
-    }
-    return attendanceItems;
+    return attendanceGroup;
+  }
+
+  static List<Attendance> toAttendances(
+    Map<String, List<AttendanceItem>> allItems,
+  ) {
+    var items = allItems.values.flattened;
+    return items.map((e) => e.attendances).flattened.toList();
   }
 }

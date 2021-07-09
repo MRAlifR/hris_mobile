@@ -1,8 +1,13 @@
-import 'package:bloc/bloc.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hris_mobile/modules/attendance/presentation/cubit/location_cubit.dart';
+
+// Project imports:
 import 'package:hris_mobile/core/extension/extension.dart';
+import 'package:hris_mobile/modules/attendance/presentation/cubit/location_cubit.dart';
 
 part 'attendance_state.dart';
 part 'attendance_cubit.freezed.dart';
@@ -25,7 +30,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
     emit(
       AttendanceState.checkIn(
         currentDate: DateTime.now().toStringAsDate(_locale),
-        checkIn: _currentDate.toStringAsTime,
+        checkIn: _currentDate.toStringAsTime ?? '--:--',
         checkInAddress: getAddress(),
         checkInDuration: _currentDate.timeDuration,
       ),
@@ -41,7 +46,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
           checkIn: checkInState.checkIn,
           checkInAddress: checkInState.checkInAddress,
           checkInDuration: checkInState.checkInDuration,
-          checkOut: _currentDate.toStringAsTime,
+          checkOut: _currentDate.toStringAsTime ?? '--:--',
           checkOutAddress: getAddress(),
           checkOutDuration: _currentDate.timeDuration,
           workHour: _currentDate.timeDuration

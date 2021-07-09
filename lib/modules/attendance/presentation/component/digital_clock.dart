@@ -1,7 +1,11 @@
+// Dart imports:
 import 'dart:async';
 import 'dart:ui';
 
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:hris_mobile/core/extension/extension.dart';
 
 class DigitalClock extends StatefulWidget {

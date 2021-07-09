@@ -1,12 +1,19 @@
+// Dart imports:
 import 'dart:ui' as ui;
+
+// Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+
+// Package imports:
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:supercharged/supercharged.dart';
+
+// Project imports:
+import 'package:hris_mobile/l10n/l10n.dart';
 import 'package:hris_mobile/modules/attendance/presentation/view/attendance_list_screen.dart';
 import 'package:hris_mobile/modules/attendance/presentation/view/attendance_screen.dart';
 import 'package:hris_mobile/modules/login/view/splash_screen.dart';
-import 'package:hris_mobile/l10n/l10n.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:supercharged/supercharged.dart';
 
 class BottomNavigation extends StatefulWidget {
   BottomNavigation({Key? key}) : super(key: key);

@@ -1,3 +1,7 @@
+// Package imports:
+import 'package:hris_mobile/modules/attendance/data/model/attendance_item.dart';
+import 'package:collection/collection.dart';
+import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'attendance.g.dart';
@@ -22,26 +26,41 @@ class Attendance {
     this.addressLinkOut,
   });
 
-  factory Attendance.fromJson(Map<String, dynamic> data) {
-    return _$AttendanceFromJson(data);
-  }
+  factory Attendance.fromJson(Map<String, dynamic> data) =>
+      _$AttendanceFromJson(data);
 
   int? id;
   @JsonKey(name: 'employee_id')
   int? employeeId;
-  @JsonKey(name: 'check_in', fromJson: _dateTimeFalseFromJson)
+  @JsonKey(
+    name: 'check_in',
+    fromJson: _dateTimeFalseFromJson,
+    toJson: _dateTimeFalseToJson,
+  )
   DateTime? checkIn;
-  @JsonKey(name: 'check_out', fromJson: _dateTimeFalseFromJson)
+  @JsonKey(
+    name: 'check_out',
+    fromJson: _dateTimeFalseFromJson,
+    toJson: _dateTimeFalseToJson,
+  )
   DateTime? checkOut;
   @JsonKey(name: 'worked_hours')
   double? workedHours;
   @JsonKey(name: 'create_uid')
   int? createUid;
-  @JsonKey(name: 'create_date', fromJson: _dateTimeFalseFromJson)
+  @JsonKey(
+    name: 'create_date',
+    fromJson: _dateTimeFalseFromJson,
+    toJson: _dateTimeFalseToJson,
+  )
   DateTime? createDate;
   @JsonKey(name: 'write_uid')
   int? writeUid;
-  @JsonKey(name: 'write_date', fromJson: _dateTimeFalseFromJson)
+  @JsonKey(
+    name: 'write_date',
+    fromJson: _dateTimeFalseFromJson,
+    toJson: _dateTimeFalseToJson,
+  )
   DateTime? writeDate;
   String? address;
   @JsonKey(name: 'address_link')
@@ -62,8 +81,34 @@ class Attendance {
       return DateTime.parse(data as String).add(const Duration(hours: 7));
   }
 
+  static dynamic _dateTimeFalseToJson(dynamic data) {
+    if ([false, null].contains(data))
+      return null;
+    else
+      return DateTime.parse(data as String).subtract(const Duration(hours: 7));
+  }
+
+  static List<AttendanceItem> groupByDate(List<Attendance> attendances) {
+    var attendanceItems = <AttendanceItem>[];
+    var attendanceGroup = attendances.groupListsBy(
+      (attendance) {
+        if (attendance.checkIn == null) return null;
+        var checkIn = attendance.checkIn!;
+        return DateFormat('dd-MM-yyyy').format(checkIn);
+      },
+    );
+    print(attendanceGroup);
+    for (var key in attendanceGroup.keys) {
+      if (attendanceGroup[key]!.isNotEmpty) {
+        var att = attendanceGroup[key] as List<Attendance>;
+        attendanceItems.add(AttendanceItem(att));
+      }
+    }
+    return attendanceItems;
+  }
+
   @override
   String toString() {
-    return 'Attendance(checkIn: ${checkIn})';
+    return 'Attendance(id: $id})';
   }
 }

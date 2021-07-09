@@ -1,4 +1,7 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:hris_mobile/l10n/l10n.dart';
 
 class LocationText extends StatelessWidget {

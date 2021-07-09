@@ -1,10 +1,13 @@
+// Dart imports:
 import 'dart:convert';
 
+// Package imports:
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
 
-import '../../../core/utils/result.dart';
+// Project imports:
 import '../../../core/error/network_exceptions.dart';
+import '../../../core/utils/result.dart';
 
 class AuthRepo {
   AuthRepo(this.client);

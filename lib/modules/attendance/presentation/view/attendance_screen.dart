@@ -1,7 +1,17 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:kartal/kartal.dart';
+import 'package:supercharged/supercharged.dart';
+
+// Project imports:
+import 'package:hris_mobile/core/device/location_repo.dart';
+import 'package:hris_mobile/core/extension/extension.dart';
 import 'package:hris_mobile/core/utils/ui/background/background.dart';
 import 'package:hris_mobile/l10n/l10n.dart';
-import 'package:hris_mobile/core/device/location_repo.dart';
 import 'package:hris_mobile/modules/attendance/data/repository/attendance_repo_impl.dart';
 import 'package:hris_mobile/modules/attendance/presentation/component/attendance_popup.dart';
 import 'package:hris_mobile/modules/attendance/presentation/component/digital_clock.dart';
@@ -11,11 +21,6 @@ import 'package:hris_mobile/modules/attendance/presentation/component/location_t
 import 'package:hris_mobile/modules/attendance/presentation/component/round_button.dart';
 import 'package:hris_mobile/modules/attendance/presentation/cubit/attendance_cubit.dart';
 import 'package:hris_mobile/modules/attendance/presentation/cubit/location_cubit.dart';
-import 'package:hris_mobile/core/extension/extension.dart';
-import 'package:kartal/kartal.dart';
-import 'package:intl/intl.dart';
-import 'package:flutter/material.dart';
-import 'package:supercharged/supercharged.dart';
 
 class AttendanceScreen extends StatelessWidget {
   static const id = 'attendance_screen';

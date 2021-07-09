@@ -1,4 +1,7 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:hris_mobile/core/utils/ui/background/middle_lower_left_background.dart';
 import 'package:hris_mobile/core/utils/ui/background/middle_right_background.dart';
 import 'package:hris_mobile/core/utils/ui/background/middle_upper_left_background.dart';

@@ -1,5 +1,6 @@
-import 'package:geolocator/geolocator.dart';
+// Package imports:
 import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:supercharged/supercharged.dart';
 
 class LocationRepo {

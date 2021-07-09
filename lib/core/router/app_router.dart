@@ -1,5 +1,10 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+// Project imports:
 import 'package:hris_mobile/core/router/bottom_navigation.dart';
 import 'package:hris_mobile/modules/attendance/presentation/view/attendance_list_screen.dart';
 import 'package:hris_mobile/modules/attendance/presentation/view/attendance_screen.dart';

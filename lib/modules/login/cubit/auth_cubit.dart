@@ -1,7 +1,9 @@
+// Package imports:
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
 
+// Project imports:
 import '../../../core/error/network_exceptions.dart';
 import '../repository/auth_repo.dart';
 
@@ -17,7 +19,7 @@ class AuthCubit extends Cubit<AuthState> {
     var apiResult = await authRepo.getSession();
     apiResult.when(
       success: (session) {
-        emit(AuthState.authenticated(session));
+        emit(AuthState.authenticated(session!));
       },
       failure: (error) {
         emit(const AuthState.unauthenticated());

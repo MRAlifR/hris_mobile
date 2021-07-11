@@ -1,7 +1,9 @@
 // Package imports:
 import 'package:collection/collection.dart';
+import 'package:hris_mobile/core/utils/logger.dart';
 import 'package:hris_mobile/modules/attendance/domain/entity/attendance.dart';
 import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
 import 'package:supercharged_dart/supercharged_dart.dart';
 
 // Project imports:
@@ -56,4 +58,32 @@ void main(List<String> args) {
     (element) => '${element.checkIn!.year} - ${element.checkIn!.month}',
   );
   print(y.keys);
+
+  var attA = [
+    Attendance(
+      id: 1,
+      employeeId: 1724,
+      checkIn: DateTime.now(),
+      checkOut: 2.hours.fromNow(),
+    ),
+    Attendance(
+      id: 1,
+      employeeId: 1724,
+      checkIn: DateTime.now(),
+      checkOut: 2.hours.fromNow(),
+    ),
+  ];
+
+  var jsonAttA = attA.map((e) => e.toJson()).toList();
+  print(jsonAttA);
+
+  var attB = jsonAttA.map((e) => Attendance.fromJson(e)).toList();
+  attB.forEach((element) {
+    print(element.checkIn);
+  });
+  // var attB = Attendance.fromJson(jsonAttA);
+  // print(attB.checkIn);
+  // print(attB.checkOut);
+  // var attC = attB.toJson();
+  // print(attC);
 }

@@ -52,13 +52,11 @@ class MonthSelection extends StatelessWidget {
           ),
           BlocConsumer<MonthSelectionCubit, MonthSelectionState>(
             listener: (context, state) {
-              print('LISTENER STATE $state');
               context
                   .read<AttendanceListCubit>()
-                  .getAttendances(state.dateTime);
+                  .getAttendanceList(state.dateTime);
             },
             builder: (context, state) {
-              print('BUILDER STATE $state');
               return RichText(
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,

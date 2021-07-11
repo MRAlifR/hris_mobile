@@ -4,6 +4,8 @@ import 'package:flutter/scheduler.dart';
 
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hris_mobile/modules/attendance/presentation/cubit/month_selection_cubit.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:supercharged/supercharged.dart';
 
 // Project imports:
@@ -24,6 +26,7 @@ class AttendanceList extends StatefulWidget {
 
 class _AttendanceListState extends State<AttendanceList> {
   late final ScrollController _scroll = ScrollController();
+  late RefreshController _refresh = RefreshController();
 
   void _scrollToBottom() {
     SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
@@ -33,6 +36,16 @@ class _AttendanceListState extends State<AttendanceList> {
         curve: Curves.ease,
       );
     });
+  }
+
+  void _onRefresh() async {
+    await Future.delayed(Duration(milliseconds: 1000));
+    _refresh.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    await Future.delayed(Duration(milliseconds: 1000));
+    _refresh.loadComplete();
   }
 
   @override
@@ -64,26 +77,53 @@ class _AttendanceListState extends State<AttendanceList> {
       return dataRow;
     }
 
-    return BlocBuilder<AttendanceListCubit, AttendanceListState>(
-      builder: (context, state) {
-        return state.maybeWhen(
-          loading: () => const Loading(),
-          failed: (message) => Failed(message: message),
-          empty: () => const Empty(),
-          orElse: () => Container(),
-          success: (minDate, maxDate, items, allItems) {
-            _scrollToBottom();
-            return Flexible(
-              child: ListView(
-                controller: _scroll,
-                padding: EdgeInsets.zero,
-                physics: const BouncingScrollPhysics(),
-                children: getDataRow(minDate, maxDate, items),
-              ),
-            );
-          },
+    return BlocListener<AttendanceListCubit, AttendanceListState>(
+      listener: (context, state) {
+        state.maybeMap(
+          success: (_) => _refresh.loadComplete(),
+          orElse: () {},
         );
       },
+      child: Builder(
+        builder: (context) {
+          var monthState = context.watch<MonthSelectionCubit>().state.dateTime;
+          var listState = context.watch<AttendanceListCubit>().state;
+          print('MONTHSTATE LUAR $monthState');
+
+          return listState.maybeWhen(
+            loading: () => const Loading(),
+            failed: (message) => Failed(message: message),
+            empty: () => const Empty(),
+            orElse: () => Container(),
+            success: (minDate, maxDate, items) {
+              print('MONTHSTATE TENGAH $monthState');
+              _scrollToBottom();
+              return Expanded(
+                child: MediaQuery.removePadding(
+                  context: context,
+                  removeTop: true,
+                  child: Scrollbar(
+                    controller: _scroll,
+                    child: SmartRefresher(
+                      header: const ClassicHeader(),
+                      controller: _refresh,
+                      onRefresh: () => context
+                          .read<AttendanceListCubit>()
+                          .refreshAttendanceList(monthState),
+                      child: ListView(
+                        controller: _scroll,
+                        padding: EdgeInsets.zero,
+                        physics: const BouncingScrollPhysics(),
+                        children: getDataRow(minDate, maxDate, items),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

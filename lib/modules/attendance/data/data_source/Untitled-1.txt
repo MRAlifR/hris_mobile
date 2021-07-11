@@ -1,0 +1,14 @@
+
+
+USECASE
+    1. GetAttendance(month year)
+
+REPOSITORY
+    1. getAtendanceList
+
+DATA SOURCE
+    1. REMOTE
+        A. getAttendancesByMonth
+    2. LOCAL
+        A. getAttendancesByMonth
+        B. saveAttendances

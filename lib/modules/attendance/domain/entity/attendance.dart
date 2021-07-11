@@ -75,17 +75,21 @@ class Attendance {
   Map<String, dynamic> toJson() => _$AttendanceToJson(this);
 
   static dynamic _dateTimeFalseFromJson(dynamic data) {
-    if ([false, null].contains(data))
+    if (data == null)
       return null;
-    else
-      return DateTime.parse(data as String).add(const Duration(hours: 7));
+    else {
+      if (data is String) data = DateTime.parse(data);
+      return data.add(const Duration(hours: 7));
+    }
   }
 
   static dynamic _dateTimeFalseToJson(dynamic data) {
-    if ([false, null].contains(data))
+    if (data == null)
       return null;
-    else
-      return DateTime.parse(data as String).subtract(const Duration(hours: 7));
+    else {
+      if (data is String) data = DateTime.parse(data);
+      return data.subtract(const Duration(hours: 7));
+    }
   }
 
   static List<AttendanceItem> groupByDate(List<Attendance> attendances) {
@@ -97,7 +101,6 @@ class Attendance {
         return DateFormat('dd-MM-yyyy').format(checkIn);
       },
     );
-    print(attendanceGroup);
     for (var key in attendanceGroup.keys) {
       if (attendanceGroup[key]!.isNotEmpty) {
         var att = attendanceGroup[key] as List<Attendance>;

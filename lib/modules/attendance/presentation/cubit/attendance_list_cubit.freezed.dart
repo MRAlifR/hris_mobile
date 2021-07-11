@@ -24,6 +24,10 @@ class _$AttendanceListStateTearOff {
     return const _Loading();
   }
 
+  _Refreshing refreshing() {
+    return const _Refreshing();
+  }
+
   _Empty empty() {
     return const _Empty();
   }
@@ -31,13 +35,11 @@ class _$AttendanceListStateTearOff {
   _Success success(
       {required DateTime minDate,
       required DateTime maxDate,
-      required List<AttendanceItem> attendances,
-      required Map<String, List<AttendanceItem>> allAttendances}) {
+      required List<AttendanceItem> attendances}) {
     return _Success(
       minDate: minDate,
       maxDate: maxDate,
       attendances: attendances,
-      allAttendances: allAttendances,
     );
   }
 
@@ -57,12 +59,10 @@ mixin _$AttendanceListState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function() refreshing,
     required TResult Function() empty,
-    required TResult Function(
-            DateTime minDate,
-            DateTime maxDate,
-            List<AttendanceItem> attendances,
-            Map<String, List<AttendanceItem>> allAttendances)
+    required TResult Function(DateTime minDate, DateTime maxDate,
+            List<AttendanceItem> attendances)
         success,
     required TResult Function(String message) failed,
   }) =>
@@ -71,12 +71,10 @@ mixin _$AttendanceListState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function()? refreshing,
     TResult Function()? empty,
-    TResult Function(
-            DateTime minDate,
-            DateTime maxDate,
-            List<AttendanceItem> attendances,
-            Map<String, List<AttendanceItem>> allAttendances)?
+    TResult Function(DateTime minDate, DateTime maxDate,
+            List<AttendanceItem> attendances)?
         success,
     TResult Function(String message)? failed,
     required TResult orElse(),
@@ -86,6 +84,7 @@ mixin _$AttendanceListState {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
+    required TResult Function(_Refreshing value) refreshing,
     required TResult Function(_Empty value) empty,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
@@ -95,6 +94,7 @@ mixin _$AttendanceListState {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
+    TResult Function(_Refreshing value)? refreshing,
     TResult Function(_Empty value)? empty,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
@@ -160,12 +160,10 @@ class _$_Initial implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function() refreshing,
     required TResult Function() empty,
-    required TResult Function(
-            DateTime minDate,
-            DateTime maxDate,
-            List<AttendanceItem> attendances,
-            Map<String, List<AttendanceItem>> allAttendances)
+    required TResult Function(DateTime minDate, DateTime maxDate,
+            List<AttendanceItem> attendances)
         success,
     required TResult Function(String message) failed,
   }) {
@@ -177,12 +175,10 @@ class _$_Initial implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function()? refreshing,
     TResult Function()? empty,
-    TResult Function(
-            DateTime minDate,
-            DateTime maxDate,
-            List<AttendanceItem> attendances,
-            Map<String, List<AttendanceItem>> allAttendances)?
+    TResult Function(DateTime minDate, DateTime maxDate,
+            List<AttendanceItem> attendances)?
         success,
     TResult Function(String message)? failed,
     required TResult orElse(),
@@ -198,6 +194,7 @@ class _$_Initial implements _Initial {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
+    required TResult Function(_Refreshing value) refreshing,
     required TResult Function(_Empty value) empty,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
@@ -210,6 +207,7 @@ class _$_Initial implements _Initial {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
+    TResult Function(_Refreshing value)? refreshing,
     TResult Function(_Empty value)? empty,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
@@ -266,12 +264,10 @@ class _$_Loading implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function() refreshing,
     required TResult Function() empty,
-    required TResult Function(
-            DateTime minDate,
-            DateTime maxDate,
-            List<AttendanceItem> attendances,
-            Map<String, List<AttendanceItem>> allAttendances)
+    required TResult Function(DateTime minDate, DateTime maxDate,
+            List<AttendanceItem> attendances)
         success,
     required TResult Function(String message) failed,
   }) {
@@ -283,12 +279,10 @@ class _$_Loading implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function()? refreshing,
     TResult Function()? empty,
-    TResult Function(
-            DateTime minDate,
-            DateTime maxDate,
-            List<AttendanceItem> attendances,
-            Map<String, List<AttendanceItem>> allAttendances)?
+    TResult Function(DateTime minDate, DateTime maxDate,
+            List<AttendanceItem> attendances)?
         success,
     TResult Function(String message)? failed,
     required TResult orElse(),
@@ -304,6 +298,7 @@ class _$_Loading implements _Loading {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
+    required TResult Function(_Refreshing value) refreshing,
     required TResult Function(_Empty value) empty,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
@@ -316,6 +311,7 @@ class _$_Loading implements _Loading {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
+    TResult Function(_Refreshing value)? refreshing,
     TResult Function(_Empty value)? empty,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
@@ -330,6 +326,112 @@ class _$_Loading implements _Loading {
 
 abstract class _Loading implements AttendanceListState {
   const factory _Loading() = _$_Loading;
+}
+
+/// @nodoc
+abstract class _$RefreshingCopyWith<$Res> {
+  factory _$RefreshingCopyWith(
+          _Refreshing value, $Res Function(_Refreshing) then) =
+      __$RefreshingCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$RefreshingCopyWithImpl<$Res>
+    extends _$AttendanceListStateCopyWithImpl<$Res>
+    implements _$RefreshingCopyWith<$Res> {
+  __$RefreshingCopyWithImpl(
+      _Refreshing _value, $Res Function(_Refreshing) _then)
+      : super(_value, (v) => _then(v as _Refreshing));
+
+  @override
+  _Refreshing get _value => super._value as _Refreshing;
+}
+
+/// @nodoc
+
+class _$_Refreshing implements _Refreshing {
+  const _$_Refreshing();
+
+  @override
+  String toString() {
+    return 'AttendanceListState.refreshing()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is _Refreshing);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function() refreshing,
+    required TResult Function() empty,
+    required TResult Function(DateTime minDate, DateTime maxDate,
+            List<AttendanceItem> attendances)
+        success,
+    required TResult Function(String message) failed,
+  }) {
+    return refreshing();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function()? refreshing,
+    TResult Function()? empty,
+    TResult Function(DateTime minDate, DateTime maxDate,
+            List<AttendanceItem> attendances)?
+        success,
+    TResult Function(String message)? failed,
+    required TResult orElse(),
+  }) {
+    if (refreshing != null) {
+      return refreshing();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Refreshing value) refreshing,
+    required TResult Function(_Empty value) empty,
+    required TResult Function(_Success value) success,
+    required TResult Function(_Failed value) failed,
+  }) {
+    return refreshing(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Refreshing value)? refreshing,
+    TResult Function(_Empty value)? empty,
+    TResult Function(_Success value)? success,
+    TResult Function(_Failed value)? failed,
+    required TResult orElse(),
+  }) {
+    if (refreshing != null) {
+      return refreshing(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Refreshing implements AttendanceListState {
+  const factory _Refreshing() = _$_Refreshing;
 }
 
 /// @nodoc
@@ -371,12 +473,10 @@ class _$_Empty implements _Empty {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function() refreshing,
     required TResult Function() empty,
-    required TResult Function(
-            DateTime minDate,
-            DateTime maxDate,
-            List<AttendanceItem> attendances,
-            Map<String, List<AttendanceItem>> allAttendances)
+    required TResult Function(DateTime minDate, DateTime maxDate,
+            List<AttendanceItem> attendances)
         success,
     required TResult Function(String message) failed,
   }) {
@@ -388,12 +488,10 @@ class _$_Empty implements _Empty {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function()? refreshing,
     TResult Function()? empty,
-    TResult Function(
-            DateTime minDate,
-            DateTime maxDate,
-            List<AttendanceItem> attendances,
-            Map<String, List<AttendanceItem>> allAttendances)?
+    TResult Function(DateTime minDate, DateTime maxDate,
+            List<AttendanceItem> attendances)?
         success,
     TResult Function(String message)? failed,
     required TResult orElse(),
@@ -409,6 +507,7 @@ class _$_Empty implements _Empty {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
+    required TResult Function(_Refreshing value) refreshing,
     required TResult Function(_Empty value) empty,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
@@ -421,6 +520,7 @@ class _$_Empty implements _Empty {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
+    TResult Function(_Refreshing value)? refreshing,
     TResult Function(_Empty value)? empty,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
@@ -442,10 +542,7 @@ abstract class _$SuccessCopyWith<$Res> {
   factory _$SuccessCopyWith(_Success value, $Res Function(_Success) then) =
       __$SuccessCopyWithImpl<$Res>;
   $Res call(
-      {DateTime minDate,
-      DateTime maxDate,
-      List<AttendanceItem> attendances,
-      Map<String, List<AttendanceItem>> allAttendances});
+      {DateTime minDate, DateTime maxDate, List<AttendanceItem> attendances});
 }
 
 /// @nodoc
@@ -463,7 +560,6 @@ class __$SuccessCopyWithImpl<$Res>
     Object? minDate = freezed,
     Object? maxDate = freezed,
     Object? attendances = freezed,
-    Object? allAttendances = freezed,
   }) {
     return _then(_Success(
       minDate: minDate == freezed
@@ -478,10 +574,6 @@ class __$SuccessCopyWithImpl<$Res>
           ? _value.attendances
           : attendances // ignore: cast_nullable_to_non_nullable
               as List<AttendanceItem>,
-      allAttendances: allAttendances == freezed
-          ? _value.allAttendances
-          : allAttendances // ignore: cast_nullable_to_non_nullable
-              as Map<String, List<AttendanceItem>>,
     ));
   }
 }
@@ -492,8 +584,7 @@ class _$_Success implements _Success {
   const _$_Success(
       {required this.minDate,
       required this.maxDate,
-      required this.attendances,
-      required this.allAttendances});
+      required this.attendances});
 
   @override
   final DateTime minDate;
@@ -501,12 +592,10 @@ class _$_Success implements _Success {
   final DateTime maxDate;
   @override
   final List<AttendanceItem> attendances;
-  @override
-  final Map<String, List<AttendanceItem>> allAttendances;
 
   @override
   String toString() {
-    return 'AttendanceListState.success(minDate: $minDate, maxDate: $maxDate, attendances: $attendances, allAttendances: $allAttendances)';
+    return 'AttendanceListState.success(minDate: $minDate, maxDate: $maxDate, attendances: $attendances)';
   }
 
   @override
@@ -521,10 +610,7 @@ class _$_Success implements _Success {
                     .equals(other.maxDate, maxDate)) &&
             (identical(other.attendances, attendances) ||
                 const DeepCollectionEquality()
-                    .equals(other.attendances, attendances)) &&
-            (identical(other.allAttendances, allAttendances) ||
-                const DeepCollectionEquality()
-                    .equals(other.allAttendances, allAttendances)));
+                    .equals(other.attendances, attendances)));
   }
 
   @override
@@ -532,8 +618,7 @@ class _$_Success implements _Success {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(minDate) ^
       const DeepCollectionEquality().hash(maxDate) ^
-      const DeepCollectionEquality().hash(attendances) ^
-      const DeepCollectionEquality().hash(allAttendances);
+      const DeepCollectionEquality().hash(attendances);
 
   @JsonKey(ignore: true)
   @override
@@ -545,16 +630,14 @@ class _$_Success implements _Success {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function() refreshing,
     required TResult Function() empty,
-    required TResult Function(
-            DateTime minDate,
-            DateTime maxDate,
-            List<AttendanceItem> attendances,
-            Map<String, List<AttendanceItem>> allAttendances)
+    required TResult Function(DateTime minDate, DateTime maxDate,
+            List<AttendanceItem> attendances)
         success,
     required TResult Function(String message) failed,
   }) {
-    return success(minDate, maxDate, attendances, allAttendances);
+    return success(minDate, maxDate, attendances);
   }
 
   @override
@@ -562,18 +645,16 @@ class _$_Success implements _Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function()? refreshing,
     TResult Function()? empty,
-    TResult Function(
-            DateTime minDate,
-            DateTime maxDate,
-            List<AttendanceItem> attendances,
-            Map<String, List<AttendanceItem>> allAttendances)?
+    TResult Function(DateTime minDate, DateTime maxDate,
+            List<AttendanceItem> attendances)?
         success,
     TResult Function(String message)? failed,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(minDate, maxDate, attendances, allAttendances);
+      return success(minDate, maxDate, attendances);
     }
     return orElse();
   }
@@ -583,6 +664,7 @@ class _$_Success implements _Success {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
+    required TResult Function(_Refreshing value) refreshing,
     required TResult Function(_Empty value) empty,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
@@ -595,6 +677,7 @@ class _$_Success implements _Success {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
+    TResult Function(_Refreshing value)? refreshing,
     TResult Function(_Empty value)? empty,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
@@ -611,14 +694,11 @@ abstract class _Success implements AttendanceListState {
   const factory _Success(
       {required DateTime minDate,
       required DateTime maxDate,
-      required List<AttendanceItem> attendances,
-      required Map<String, List<AttendanceItem>> allAttendances}) = _$_Success;
+      required List<AttendanceItem> attendances}) = _$_Success;
 
   DateTime get minDate => throw _privateConstructorUsedError;
   DateTime get maxDate => throw _privateConstructorUsedError;
   List<AttendanceItem> get attendances => throw _privateConstructorUsedError;
-  Map<String, List<AttendanceItem>> get allAttendances =>
-      throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   _$SuccessCopyWith<_Success> get copyWith =>
       throw _privateConstructorUsedError;
@@ -689,12 +769,10 @@ class _$_Failed implements _Failed {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function() refreshing,
     required TResult Function() empty,
-    required TResult Function(
-            DateTime minDate,
-            DateTime maxDate,
-            List<AttendanceItem> attendances,
-            Map<String, List<AttendanceItem>> allAttendances)
+    required TResult Function(DateTime minDate, DateTime maxDate,
+            List<AttendanceItem> attendances)
         success,
     required TResult Function(String message) failed,
   }) {
@@ -706,12 +784,10 @@ class _$_Failed implements _Failed {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function()? refreshing,
     TResult Function()? empty,
-    TResult Function(
-            DateTime minDate,
-            DateTime maxDate,
-            List<AttendanceItem> attendances,
-            Map<String, List<AttendanceItem>> allAttendances)?
+    TResult Function(DateTime minDate, DateTime maxDate,
+            List<AttendanceItem> attendances)?
         success,
     TResult Function(String message)? failed,
     required TResult orElse(),
@@ -727,6 +803,7 @@ class _$_Failed implements _Failed {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
+    required TResult Function(_Refreshing value) refreshing,
     required TResult Function(_Empty value) empty,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
@@ -739,6 +816,7 @@ class _$_Failed implements _Failed {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
+    TResult Function(_Refreshing value)? refreshing,
     TResult Function(_Empty value)? empty,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,

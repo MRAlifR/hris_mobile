@@ -3,12 +3,17 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
+import 'package:hris_mobile/core/device/api_call.dart';
+import 'package:hris_mobile/modules/attendance/data/data_source/attendance_local_source.dart';
+import 'package:hris_mobile/modules/attendance/data/data_source/attendance_remote_source.dart';
 import 'package:supercharged/supercharged.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 // Project imports:
 import 'package:hris_mobile/core/utils/ui/background/background.dart';
 import 'package:hris_mobile/l10n/l10n.dart';
-import 'package:hris_mobile/modules/attendance/data/repository/attendance_repo_impl.dart';
+import 'package:hris_mobile/modules/attendance/data/repository/attendance_repo.dart';
 import 'package:hris_mobile/modules/attendance/presentation/component/attendance_list.dart';
 import 'package:hris_mobile/modules/attendance/presentation/component/attendance_table.dart';
 import 'package:hris_mobile/modules/attendance/presentation/component/month_selection.dart';
@@ -25,9 +30,20 @@ class AttendanceListScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AttendanceListCubit>(
-          create: (context) => AttendanceListCubit(
-            attendanceRepo: AttendanceRepoImpl(),
-          ),
+          create: (context) {
+            return AttendanceListCubit(
+              attendanceRepo: AttendanceRepo(
+                localSource: AttendanceLocalSource(
+                  box: Hive.box(
+                    AttendanceLocalSource.attendanceLocalKey,
+                  ),
+                ),
+                remoteSource: AttendanceRemoteSource(
+                  apiCall: ApiCall('https://exercisemralifr.herokuapp.com/'),
+                ),
+              ),
+            );
+          },
         ),
         BlocProvider<MonthSelectionCubit>(
           create: (context) => MonthSelectionCubit(),

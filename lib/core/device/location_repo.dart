@@ -9,7 +9,6 @@ class LocationRepo {
 
   Future<void> checkPermission() async {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    print(serviceEnabled);
     if (!serviceEnabled) {
       return Future.error('Location services are disabled.');
     }

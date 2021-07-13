@@ -30,9 +30,7 @@ class AttendanceLocalSource extends IAttendanceLocalSource {
         _log.i('GET ${result.length} DATA');
 
         listAttendance = List<Attendance>.from(
-          result.map((e) {
-            return Attendance.fromJson(Map<String, dynamic>.from(e));
-          }),
+          result.map((e) => Attendance.fromJson(Map<String, dynamic>.from(e))),
         );
       }
       return listAttendance;

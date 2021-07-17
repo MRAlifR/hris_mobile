@@ -5,6 +5,7 @@ class AttendanceListState with _$AttendanceListState {
   const factory AttendanceListState.initial() = _Initial;
   const factory AttendanceListState.loading() = _Loading;
   const factory AttendanceListState.refreshing() = _Refreshing;
+  const factory AttendanceListState.refreshFailed() = _RefreshFailed;
   const factory AttendanceListState.empty() = _Empty;
 
   const factory AttendanceListState.success({

@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:hris_mobile/core/router/apps_router.gr.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
 
 // Project imports:
@@ -23,17 +24,17 @@ class App extends StatelessWidget {
   App({Key? key, required this.odooURL}) : super(key: key);
 
   final String odooURL;
+  final _appsRouter = AppsRouter();
 
   @override
   Widget build(BuildContext context) {
     final odooClient = OdooClient(odooURL);
     final authRepo = AuthRepo(odooClient);
-    final _appRouter = AppRouter();
 
     return BlocProvider<AuthCubit>(
       lazy: false,
-      create: (_) => AuthCubit(authRepo)..appStarted(),
-      child: MaterialApp(
+      create: (_) => AuthCubit(authRepo),
+      child: MaterialApp.router(
         theme: ThemeData(
           accentColor: const Color(0xFF13B9FF),
           appBarTheme: const AppBarTheme(color: Color(0xFF13B9FF)),
@@ -43,8 +44,8 @@ class App extends StatelessWidget {
           GlobalMaterialLocalizations.delegate,
         ],
         supportedLocales: AppLocalizations.supportedLocales,
-        onGenerateRoute: _appRouter.onGenerateRoute,
-        onGenerateInitialRoutes: _appRouter.onGenerateInitialRoutes,
+        routerDelegate: _appsRouter.delegate(),
+        routeInformationParser: _appsRouter.defaultRouteParser(),
       ),
     );
   }

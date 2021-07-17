@@ -1,4 +1,6 @@
-{
+{   "users": [
+    {"id": 1, "name": "alif"}
+],
     "attendances" : [
     {"id":76193,"employee_id":1724,"check_in":"2021-07-02T02:07:49","check_out":null,"worked_hours":0,"create_uid":364,"create_date":"2021-07-02T02:07:49.93532","write_uid":1,"write_date":"2021-07-02T02:07:50.457066","theoretical_hours":8,"message_main_attachment_id":null,"address":"Kantor Pusat Direktorat Jendral Pajak, Jalan Jenderal Gatot Subroto, RW 01, Senayan, Kebayoran Baru, Jakarta Selatan, Daerah Khusus Ibukota Jakarta, 12930, Indonesia","address_link":"https://www.google.com/maps/@-6.2258568,106.8140257,18z","browser":"chrome","os":"Linux","address_out":null,"address_link_out":null}, 
     {"id":76109,"employee_id":1724,"check_in":"2021-07-01T11:26:19","check_out":"2021-07-01T11:26:22","worked_hours":0.000833333333333333,"create_uid":364,"create_date":"2021-07-01T11:26:19.921858","write_uid":1,"write_date":"2021-07-01T11:26:23.193372","theoretical_hours":8,"message_main_attachment_id":null,"address":"Kantor Pusat Direktorat Jendral Pajak, Jalan Jenderal Gatot Subroto, RW 01, Senayan, Kebayoran Baru, Jakarta Selatan, Daerah Khusus Ibukota Jakarta, 12930, Indonesia","address_link":"https://www.google.com/maps/@-6.2255769,106.8141667,18z","browser":"chrome","os":"Linux","address_out":"Kantor Pusat Direktorat Jendral Pajak, Jalan Jenderal Gatot Subroto, RW 01, Senayan, Kebayoran Baru, Jakarta Selatan, Daerah Khusus Ibukota Jakarta, 12930, Indonesia","address_link_out":"https://www.google.com/maps/@-6.2255095,106.8141228,18z"}, 

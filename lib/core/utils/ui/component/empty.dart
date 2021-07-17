@@ -12,26 +12,24 @@ class Empty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Flex(
-        direction: Axis.vertical,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Lottie.asset(
-            'assets/animation/empty-box.json',
-            height: 250,
+    return Flex(
+      direction: Axis.vertical,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Lottie.asset(
+          'assets/animation/empty-box.json',
+          height: 250,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 50.0),
+          child: Text(
+            'Opps, can\'t find your data',
+            textAlign: TextAlign.center,
+            style: context.textTheme.headline4,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50.0),
-            child: Text(
-              'Opps, can\'t find your data',
-              textAlign: TextAlign.center,
-              style: context.textTheme.headline4,
-            ),
-          ),
-          context.emptySizedHeightBoxHigh
-        ],
-      ),
+        ),
+        context.emptySizedHeightBoxHigh
+      ],
     );
   }
 }

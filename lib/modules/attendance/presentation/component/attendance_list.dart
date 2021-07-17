@@ -26,7 +26,7 @@ class AttendanceList extends StatefulWidget {
 
 class _AttendanceListState extends State<AttendanceList> {
   late final ScrollController _scroll = ScrollController();
-  late RefreshController _refresh = RefreshController();
+  late final RefreshController _refresh = RefreshController();
 
   void _scrollToBottom() {
     SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
@@ -38,14 +38,11 @@ class _AttendanceListState extends State<AttendanceList> {
     });
   }
 
-  void _onRefresh() async {
-    await Future.delayed(Duration(milliseconds: 1000));
-    _refresh.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    await Future.delayed(Duration(milliseconds: 1000));
-    _refresh.loadComplete();
+  @override
+  void dispose() {
+    super.dispose();
+    _refresh.dispose();
+    _scroll.dispose();
   }
 
   @override
@@ -58,69 +55,98 @@ class _AttendanceListState extends State<AttendanceList> {
       List<AttendanceItem> items,
     ) {
       var dataRow = <Widget>[];
-      for (var curDate in minDate.until(maxDate.plus(day: 1))) {
+      minDate.until(maxDate.plus(day: 1)).forEach((curDate) {
         if (curDate.weekday == DateTime.sunday) {
           dataRow.add(AttendanceWeekendRow(
             saturdayDate: curDate.minus(day: 1).toStringAsDateOnly(_locale),
             sundayDate: curDate.toStringAsDateOnly(_locale),
           ));
         } else if (curDate.weekday != DateTime.saturday) {
-          var filteredItems =
-              items.filter((item) => item.checkIn!.day == curDate.day);
-          if (filteredItems.isNotEmpty)
-            dataRow.add(AttendanceRow(filteredItems.first));
-          else {
-            dataRow.add(AttendanceRow.empty(curDate));
-          }
+          var filteredItems = items.filter(
+            (item) => item.checkIn!.day == curDate.day,
+          );
+          filteredItems.isNotEmpty
+              ? dataRow.add(AttendanceRow(filteredItems.first))
+              : dataRow.add(AttendanceRow.empty(curDate));
         }
-      }
+      });
       return dataRow;
     }
 
     return BlocListener<AttendanceListCubit, AttendanceListState>(
       listener: (context, state) {
+        print(state);
         state.maybeMap(
-          success: (_) => _refresh.loadComplete(),
+          success: (_) => _refresh
+            ..refreshCompleted()
+            ..loadComplete(),
+          refreshFailed: (_) => _refresh
+            ..refreshFailed()
+            ..loadFailed(),
+          empty: (_) => _refresh
+            ..refreshCompleted()
+            ..loadFailed(),
           orElse: () {},
         );
       },
       child: Builder(
         builder: (context) {
-          var monthState = context.watch<MonthSelectionCubit>().state.dateTime;
-          var listState = context.watch<AttendanceListCubit>().state;
-          print('MONTHSTATE LUAR $monthState');
+          var monthState = context.watch<MonthSelectionCubit>();
+          var listState = context.watch<AttendanceListCubit>();
 
-          return listState.maybeWhen(
-            loading: () => const Loading(),
-            failed: (message) => Failed(message: message),
-            empty: () => const Empty(),
-            orElse: () => Container(),
-            success: (minDate, maxDate, items) {
-              print('MONTHSTATE TENGAH $monthState');
-              _scrollToBottom();
-              return Expanded(
-                child: MediaQuery.removePadding(
-                  context: context,
-                  removeTop: true,
-                  child: Scrollbar(
+          List<Widget> _buildChildren(BoxConstraints constraints) {
+            return listState.state.maybeWhen(
+              loading: () => [
+                Container(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: const Loading(),
+                ),
+              ],
+              failed: (message) => [
+                Container(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: Failed(message: message),
+                ),
+              ],
+              empty: () => [
+                Container(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: const Center(
+                    child: Empty(),
+                  ),
+                ),
+              ],
+              orElse: () => [Container()],
+              success: getDataRow,
+            );
+          }
+
+          // _scrollToBottom();
+          return Expanded(
+            child: MediaQuery.removePadding(
+              context: context,
+              removeTop: true,
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  return Scrollbar(
                     controller: _scroll,
                     child: SmartRefresher(
                       header: const ClassicHeader(),
                       controller: _refresh,
                       onRefresh: () => context
                           .read<AttendanceListCubit>()
-                          .refreshAttendanceList(monthState),
+                          .refreshAttendanceList(monthState.state.dateTime),
                       child: ListView(
                         controller: _scroll,
                         padding: EdgeInsets.zero,
                         physics: const BouncingScrollPhysics(),
-                        children: getDataRow(minDate, maxDate, items),
+                        children: _buildChildren(constraints),
                       ),
                     ),
-                  ),
-                ),
-              );
-            },
+                  );
+                },
+              ),
+            ),
           );
         },
       ),

@@ -57,7 +57,8 @@ class AttendanceScreenView extends StatefulWidget {
   _AttendanceScreenViewState createState() => _AttendanceScreenViewState();
 }
 
-class _AttendanceScreenViewState extends State<AttendanceScreenView> {
+class _AttendanceScreenViewState extends State<AttendanceScreenView>
+    with WidgetsBindingObserver {
   final checkInColorList = [
     '#3E80DD'.toColor(),
     '#6672D6'.toColor(),
@@ -76,6 +77,32 @@ class _AttendanceScreenViewState extends State<AttendanceScreenView> {
   void initState() {
     super.initState();
     _attendanceCubit = BlocProvider.of<AttendanceCubit>(context);
+    WidgetsBinding.instance!.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.detached:
+        print('AppLifecycleState detached');
+        break;
+      case AppLifecycleState.inactive:
+        print('AppLifecycleState inactive');
+        break;
+      case AppLifecycleState.paused:
+        print('AppLifecycleState paused');
+        break;
+      case AppLifecycleState.resumed:
+        print('AppLifecycleState resumed');
+        break;
+      default:
+    }
+    super.didChangeAppLifecycleState(state);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override

@@ -1,9 +1,12 @@
 // Flutter imports:
+import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:hris_mobile/core/router/apps_router.gr.dart';
 import 'package:kartal/kartal.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
@@ -38,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: context.verticalPaddingNormal,
         ),
         onPressed: () {
-          context.navigateToReset(BottomNavigation.id);
+          AutoRouter.of(context).popAndPush(NavigationRouter());
           // pushNewScreen(
           //   context,
           //   screen: BottomNavigation(),

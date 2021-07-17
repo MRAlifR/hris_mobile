@@ -45,11 +45,9 @@ class AttendanceRepo extends IAttendanceRepo {
     this.employeeId = employeeId!;
 
     final dateParam = month.toStringAs(monthFormat);
-    if (dateParam == currentDate) {
-      return _remoteFirstThenLocal();
-    } else {
-      return _localFirstThenRemote();
-    }
+    return dateParam == currentDate
+        ? _remoteFirstThenLocal()
+        : _localFirstThenRemote();
   }
 
   @override

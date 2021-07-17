@@ -28,6 +28,10 @@ class _$AttendanceListStateTearOff {
     return const _Refreshing();
   }
 
+  _RefreshFailed refreshFailed() {
+    return const _RefreshFailed();
+  }
+
   _Empty empty() {
     return const _Empty();
   }
@@ -60,6 +64,7 @@ mixin _$AttendanceListState {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() refreshing,
+    required TResult Function() refreshFailed,
     required TResult Function() empty,
     required TResult Function(DateTime minDate, DateTime maxDate,
             List<AttendanceItem> attendances)
@@ -72,6 +77,7 @@ mixin _$AttendanceListState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? refreshing,
+    TResult Function()? refreshFailed,
     TResult Function()? empty,
     TResult Function(DateTime minDate, DateTime maxDate,
             List<AttendanceItem> attendances)?
@@ -85,6 +91,7 @@ mixin _$AttendanceListState {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Refreshing value) refreshing,
+    required TResult Function(_RefreshFailed value) refreshFailed,
     required TResult Function(_Empty value) empty,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
@@ -95,6 +102,7 @@ mixin _$AttendanceListState {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Refreshing value)? refreshing,
+    TResult Function(_RefreshFailed value)? refreshFailed,
     TResult Function(_Empty value)? empty,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
@@ -161,6 +169,7 @@ class _$_Initial implements _Initial {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() refreshing,
+    required TResult Function() refreshFailed,
     required TResult Function() empty,
     required TResult Function(DateTime minDate, DateTime maxDate,
             List<AttendanceItem> attendances)
@@ -176,6 +185,7 @@ class _$_Initial implements _Initial {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? refreshing,
+    TResult Function()? refreshFailed,
     TResult Function()? empty,
     TResult Function(DateTime minDate, DateTime maxDate,
             List<AttendanceItem> attendances)?
@@ -195,6 +205,7 @@ class _$_Initial implements _Initial {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Refreshing value) refreshing,
+    required TResult Function(_RefreshFailed value) refreshFailed,
     required TResult Function(_Empty value) empty,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
@@ -208,6 +219,7 @@ class _$_Initial implements _Initial {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Refreshing value)? refreshing,
+    TResult Function(_RefreshFailed value)? refreshFailed,
     TResult Function(_Empty value)? empty,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
@@ -265,6 +277,7 @@ class _$_Loading implements _Loading {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() refreshing,
+    required TResult Function() refreshFailed,
     required TResult Function() empty,
     required TResult Function(DateTime minDate, DateTime maxDate,
             List<AttendanceItem> attendances)
@@ -280,6 +293,7 @@ class _$_Loading implements _Loading {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? refreshing,
+    TResult Function()? refreshFailed,
     TResult Function()? empty,
     TResult Function(DateTime minDate, DateTime maxDate,
             List<AttendanceItem> attendances)?
@@ -299,6 +313,7 @@ class _$_Loading implements _Loading {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Refreshing value) refreshing,
+    required TResult Function(_RefreshFailed value) refreshFailed,
     required TResult Function(_Empty value) empty,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
@@ -312,6 +327,7 @@ class _$_Loading implements _Loading {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Refreshing value)? refreshing,
+    TResult Function(_RefreshFailed value)? refreshFailed,
     TResult Function(_Empty value)? empty,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
@@ -371,6 +387,7 @@ class _$_Refreshing implements _Refreshing {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() refreshing,
+    required TResult Function() refreshFailed,
     required TResult Function() empty,
     required TResult Function(DateTime minDate, DateTime maxDate,
             List<AttendanceItem> attendances)
@@ -386,6 +403,7 @@ class _$_Refreshing implements _Refreshing {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? refreshing,
+    TResult Function()? refreshFailed,
     TResult Function()? empty,
     TResult Function(DateTime minDate, DateTime maxDate,
             List<AttendanceItem> attendances)?
@@ -405,6 +423,7 @@ class _$_Refreshing implements _Refreshing {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Refreshing value) refreshing,
+    required TResult Function(_RefreshFailed value) refreshFailed,
     required TResult Function(_Empty value) empty,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
@@ -418,6 +437,7 @@ class _$_Refreshing implements _Refreshing {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Refreshing value)? refreshing,
+    TResult Function(_RefreshFailed value)? refreshFailed,
     TResult Function(_Empty value)? empty,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
@@ -432,6 +452,116 @@ class _$_Refreshing implements _Refreshing {
 
 abstract class _Refreshing implements AttendanceListState {
   const factory _Refreshing() = _$_Refreshing;
+}
+
+/// @nodoc
+abstract class _$RefreshFailedCopyWith<$Res> {
+  factory _$RefreshFailedCopyWith(
+          _RefreshFailed value, $Res Function(_RefreshFailed) then) =
+      __$RefreshFailedCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$RefreshFailedCopyWithImpl<$Res>
+    extends _$AttendanceListStateCopyWithImpl<$Res>
+    implements _$RefreshFailedCopyWith<$Res> {
+  __$RefreshFailedCopyWithImpl(
+      _RefreshFailed _value, $Res Function(_RefreshFailed) _then)
+      : super(_value, (v) => _then(v as _RefreshFailed));
+
+  @override
+  _RefreshFailed get _value => super._value as _RefreshFailed;
+}
+
+/// @nodoc
+
+class _$_RefreshFailed implements _RefreshFailed {
+  const _$_RefreshFailed();
+
+  @override
+  String toString() {
+    return 'AttendanceListState.refreshFailed()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is _RefreshFailed);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function() refreshing,
+    required TResult Function() refreshFailed,
+    required TResult Function() empty,
+    required TResult Function(DateTime minDate, DateTime maxDate,
+            List<AttendanceItem> attendances)
+        success,
+    required TResult Function(String message) failed,
+  }) {
+    return refreshFailed();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function()? refreshing,
+    TResult Function()? refreshFailed,
+    TResult Function()? empty,
+    TResult Function(DateTime minDate, DateTime maxDate,
+            List<AttendanceItem> attendances)?
+        success,
+    TResult Function(String message)? failed,
+    required TResult orElse(),
+  }) {
+    if (refreshFailed != null) {
+      return refreshFailed();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Refreshing value) refreshing,
+    required TResult Function(_RefreshFailed value) refreshFailed,
+    required TResult Function(_Empty value) empty,
+    required TResult Function(_Success value) success,
+    required TResult Function(_Failed value) failed,
+  }) {
+    return refreshFailed(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Refreshing value)? refreshing,
+    TResult Function(_RefreshFailed value)? refreshFailed,
+    TResult Function(_Empty value)? empty,
+    TResult Function(_Success value)? success,
+    TResult Function(_Failed value)? failed,
+    required TResult orElse(),
+  }) {
+    if (refreshFailed != null) {
+      return refreshFailed(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _RefreshFailed implements AttendanceListState {
+  const factory _RefreshFailed() = _$_RefreshFailed;
 }
 
 /// @nodoc
@@ -474,6 +604,7 @@ class _$_Empty implements _Empty {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() refreshing,
+    required TResult Function() refreshFailed,
     required TResult Function() empty,
     required TResult Function(DateTime minDate, DateTime maxDate,
             List<AttendanceItem> attendances)
@@ -489,6 +620,7 @@ class _$_Empty implements _Empty {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? refreshing,
+    TResult Function()? refreshFailed,
     TResult Function()? empty,
     TResult Function(DateTime minDate, DateTime maxDate,
             List<AttendanceItem> attendances)?
@@ -508,6 +640,7 @@ class _$_Empty implements _Empty {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Refreshing value) refreshing,
+    required TResult Function(_RefreshFailed value) refreshFailed,
     required TResult Function(_Empty value) empty,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
@@ -521,6 +654,7 @@ class _$_Empty implements _Empty {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Refreshing value)? refreshing,
+    TResult Function(_RefreshFailed value)? refreshFailed,
     TResult Function(_Empty value)? empty,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
@@ -631,6 +765,7 @@ class _$_Success implements _Success {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() refreshing,
+    required TResult Function() refreshFailed,
     required TResult Function() empty,
     required TResult Function(DateTime minDate, DateTime maxDate,
             List<AttendanceItem> attendances)
@@ -646,6 +781,7 @@ class _$_Success implements _Success {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? refreshing,
+    TResult Function()? refreshFailed,
     TResult Function()? empty,
     TResult Function(DateTime minDate, DateTime maxDate,
             List<AttendanceItem> attendances)?
@@ -665,6 +801,7 @@ class _$_Success implements _Success {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Refreshing value) refreshing,
+    required TResult Function(_RefreshFailed value) refreshFailed,
     required TResult Function(_Empty value) empty,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
@@ -678,6 +815,7 @@ class _$_Success implements _Success {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Refreshing value)? refreshing,
+    TResult Function(_RefreshFailed value)? refreshFailed,
     TResult Function(_Empty value)? empty,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
@@ -770,6 +908,7 @@ class _$_Failed implements _Failed {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() refreshing,
+    required TResult Function() refreshFailed,
     required TResult Function() empty,
     required TResult Function(DateTime minDate, DateTime maxDate,
             List<AttendanceItem> attendances)
@@ -785,6 +924,7 @@ class _$_Failed implements _Failed {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? refreshing,
+    TResult Function()? refreshFailed,
     TResult Function()? empty,
     TResult Function(DateTime minDate, DateTime maxDate,
             List<AttendanceItem> attendances)?
@@ -804,6 +944,7 @@ class _$_Failed implements _Failed {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Refreshing value) refreshing,
+    required TResult Function(_RefreshFailed value) refreshFailed,
     required TResult Function(_Empty value) empty,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
@@ -817,6 +958,7 @@ class _$_Failed implements _Failed {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Refreshing value)? refreshing,
+    TResult Function(_RefreshFailed value)? refreshFailed,
     TResult Function(_Empty value)? empty,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,

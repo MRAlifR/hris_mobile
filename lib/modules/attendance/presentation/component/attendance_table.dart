@@ -118,29 +118,18 @@ class AttendanceRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final _locale = Localizations.localeOf(context);
 
-    AttendanceListRowHeader _buildAttendanceListHeader() {
-      if (attendanceItem == null) {
-        return AttendanceListRowHeader(
-          checkIn: '--:--',
-          checkOut: '--:--',
-          workedHour: '--:--',
-          date: dateTime!.toStringAsDateOnly(_locale),
-          day: dateTime!.toStringAsDay(_locale),
-        );
-      } else {
-        var cIn = attendanceItem?.checkIn?.toStringAsTime ?? '--:--';
-        var cOut = attendanceItem?.checkOut?.toStringAsTime ?? '--:--';
-        var date = attendanceItem?.checkIn?.toStringAsDateOnly(_locale) ?? '01';
-        var day = attendanceItem?.checkIn?.toStringAsDay(_locale) ?? 'Mon';
-        var wHour = attendanceItem!.workedHours * 3600;
-        return AttendanceListRowHeader(
-          checkIn: cIn,
-          checkOut: cOut,
-          date: date,
-          day: day,
-          workedHour: Duration(seconds: wHour.toInt()).toStringAsTimeHM,
-        );
-      }
+    // ignore: prefer_typing_uninitialized_variables
+    var date, day, workedHour;
+    if (attendanceItem == null) {
+      date = dateTime!.toStringAsDateOnly(_locale);
+      day = dateTime!.toStringAsDay(_locale);
+      workedHour = '--:--';
+    } else {
+      date = attendanceItem!.checkIn!.toStringAsDateOnly(_locale);
+      day = attendanceItem!.checkIn!.toStringAsDay(_locale);
+      workedHour = Duration(
+        seconds: (attendanceItem!.workedHours * 3600).toInt(),
+      ).toStringAsTimeHM;
     }
 
     return ExpandableNotifier(
@@ -152,7 +141,13 @@ class AttendanceRow extends StatelessWidget {
           tapBodyToCollapse: true,
           hasIcon: false,
         ),
-        header: _buildAttendanceListHeader(),
+        header: AttendanceListRowHeader(
+          checkIn: attendanceItem?.checkIn?.toStringAsTime ?? '--:--',
+          checkOut: attendanceItem?.checkOut?.toStringAsTime ?? '--:--',
+          workedHour: workedHour,
+          date: date,
+          day: day,
+        ),
         collapsed: Container(),
         expanded: const AttendanceListRowBottom(),
       ),

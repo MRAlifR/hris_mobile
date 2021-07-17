@@ -17,6 +17,8 @@ import 'package:hris_mobile/modules/attendance/domain/repository/i_attendance_re
 part 'attendance_list_state.dart';
 part 'attendance_list_cubit.freezed.dart';
 
+final _log = Logger(printer: SimpleLogPrinter('AttendanceListCubit'));
+
 class AttendanceListCubit extends Cubit<AttendanceListState> {
   AttendanceListCubit({
     required IAttendanceRepo attendanceRepo,
@@ -28,21 +30,22 @@ class AttendanceListCubit extends Cubit<AttendanceListState> {
   final IAttendanceRepo _attendanceRepo;
 
   Future<void> getAttendanceList(DateTime dateTime) async {
+    _log.i('DATE PARAM $dateTime');
     emit(const AttendanceListState.loading());
     var result = await _attendanceRepo.getAttendanceByMonth(month: dateTime);
     result.when(
       success: (attendances) {
-        if (attendances!.isEmpty) {
-          emit(const AttendanceListState.empty());
-        } else {
-          emit(AttendanceListState.success(
-            minDate: dateTime.firstDayOfMonth,
-            maxDate: _getMaxDate(dateTime, attendances),
-            attendances: attendances,
-          ));
-        }
+        _log.i('ATTENDANCES DATA ${attendances?.length}');
+        attendances!.isEmpty
+            ? emit(const AttendanceListState.empty())
+            : emit(AttendanceListState.success(
+                minDate: dateTime.firstDayOfMonth,
+                maxDate: _getMaxDate(dateTime, attendances),
+                attendances: attendances,
+              ));
       },
       failure: (error) {
+        _log.e(error);
         emit(AttendanceListState.failed(
           message: NetworkExceptions.getErrorMessage(error!),
         ));
@@ -51,21 +54,22 @@ class AttendanceListCubit extends Cubit<AttendanceListState> {
   }
 
   Future<void> refreshAttendanceList(DateTime dateTime) async {
-    print('MONTHSTATE DALAM $dateTime');
+    _log.i('DATE PARAM $dateTime');
     var result = await _attendanceRepo.refreshAttendance(month: dateTime);
     result.when(
       success: (attendances) {
-        if (attendances!.isEmpty) {
-          emit(const AttendanceListState.empty());
-        } else {
-          emit(AttendanceListState.success(
-            minDate: dateTime.firstDayOfMonth,
-            maxDate: _getMaxDate(dateTime, attendances),
-            attendances: attendances,
-          ));
-        }
+        _log.i('ATTENDANCES DATA ${attendances?.length}');
+        emit(const AttendanceListState.loading());
+        attendances!.isEmpty
+            ? emit(const AttendanceListState.empty())
+            : emit(AttendanceListState.success(
+                minDate: dateTime.firstDayOfMonth,
+                maxDate: _getMaxDate(dateTime, attendances),
+                attendances: attendances,
+              ));
       },
       failure: (error) {
+        _log.e(error);
         emit(AttendanceListState.failed(
           message: NetworkExceptions.getErrorMessage(error!),
         ));

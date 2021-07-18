@@ -15,7 +15,11 @@ class MonthSelectionCubit extends Cubit<MonthSelectionState> {
     emit(MonthSelectionState(state.dateTime.plus(month: 1)));
   }
 
-  void decreaaseMonth() {
+  void decreaseMonth() {
     emit(MonthSelectionState(state.dateTime.minus(month: 1)));
+  }
+
+  void monthPick(DateTime date) {
+    emit(MonthSelectionState(date));
   }
 }

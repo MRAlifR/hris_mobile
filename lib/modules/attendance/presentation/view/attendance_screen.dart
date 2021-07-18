@@ -3,16 +3,13 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:kartal/kartal.dart';
-import 'package:supercharged/supercharged.dart';
 
 // Project imports:
+import 'package:hris_mobile/constants/color.dart';
 import 'package:hris_mobile/core/device/location_repo.dart';
-import 'package:hris_mobile/core/extension/extension.dart';
 import 'package:hris_mobile/core/utils/ui/background/background.dart';
 import 'package:hris_mobile/l10n/l10n.dart';
-import 'package:hris_mobile/modules/attendance/data/repository/attendance_repo.dart';
 import 'package:hris_mobile/modules/attendance/presentation/component/attendance_popup.dart';
 import 'package:hris_mobile/modules/attendance/presentation/component/digital_clock.dart';
 import 'package:hris_mobile/modules/attendance/presentation/component/gradient_icon.dart';
@@ -59,18 +56,6 @@ class AttendanceScreenView extends StatefulWidget {
 
 class _AttendanceScreenViewState extends State<AttendanceScreenView>
     with WidgetsBindingObserver {
-  final checkInColorList = [
-    '#3E80DD'.toColor(),
-    '#6672D6'.toColor(),
-    '#9A87E4'.toColor()
-  ];
-
-  final checkOutColorList = [
-    '#8E3098'.toColor(),
-    '#C8307D'.toColor(),
-    '#F04980'.toColor(),
-  ];
-
   late AttendanceCubit _attendanceCubit;
 
   @override
@@ -116,7 +101,7 @@ class _AttendanceScreenViewState extends State<AttendanceScreenView>
             showDialog<String>(
               context: context,
               builder: (_) => AttendancePopup(
-                iconColors: checkInColorList,
+                iconColors: kPrimaryGradientColors,
                 address: state.checkInAddress,
               ),
             );
@@ -125,7 +110,7 @@ class _AttendanceScreenViewState extends State<AttendanceScreenView>
             showDialog<String>(
               context: context,
               builder: (_) => AttendancePopup(
-                iconColors: checkInColorList,
+                iconColors: kPrimaryGradientColors,
                 address: state.checkOutAddress,
               ),
             );
@@ -215,14 +200,14 @@ class _AttendanceScreenViewState extends State<AttendanceScreenView>
                           checkIn: (checkInState) {
                             return RoundButton(
                               title: _l10n.checkOut.toUpperCase(),
-                              colorList: checkOutColorList,
+                              colorList: kSecondaryGradientColors,
                               onTap: _attendanceCubit.checkOutButton,
                             );
                           },
                           orElse: () {
                             return RoundButton(
                               title: _l10n.checkIn.toUpperCase(),
-                              colorList: checkInColorList,
+                              colorList: kPrimaryGradientColors,
                               onTap: _attendanceCubit.checkInButton,
                             );
                           },
@@ -265,7 +250,6 @@ class _AttendanceScreenViewState extends State<AttendanceScreenView>
                               icon: GradientIcon(
                                 Icons.history,
                                 size: 35,
-                                colorList: checkInColorList,
                               ),
                               time: state.map(
                                 initial: (state) => '--:--',
@@ -278,7 +262,6 @@ class _AttendanceScreenViewState extends State<AttendanceScreenView>
                               icon: GradientIcon(
                                 Icons.update,
                                 size: 35,
-                                colorList: checkInColorList,
                               ),
                               time: state.maybeMap(
                                 checkOut: (state) => state.checkOut,
@@ -290,7 +273,6 @@ class _AttendanceScreenViewState extends State<AttendanceScreenView>
                               icon: GradientIcon(
                                 Icons.schedule,
                                 size: 32,
-                                colorList: checkInColorList,
                               ),
                               time: state.maybeMap(
                                 checkOut: (state) => state.checkOut,

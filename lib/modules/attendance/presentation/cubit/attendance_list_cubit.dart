@@ -1,21 +1,18 @@
 // Package imports:
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hris_mobile/core/utils/logger.dart';
-import 'package:hris_mobile/core/utils/result.dart';
-import 'package:hris_mobile/modules/attendance/domain/entity/attendance.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:logger/logger.dart';
-import 'package:supercharged/supercharged.dart';
 
 // Project imports:
 import 'package:hris_mobile/core/error/network_exceptions.dart';
 import 'package:hris_mobile/core/extension/extension.dart';
+import 'package:hris_mobile/core/utils/logger.dart';
 import 'package:hris_mobile/modules/attendance/data/model/attendance_item.dart';
 import 'package:hris_mobile/modules/attendance/domain/repository/i_attendance_repo.dart';
 
-part 'attendance_list_state.dart';
 part 'attendance_list_cubit.freezed.dart';
+part 'attendance_list_state.dart';
 
 final _log = Logger(printer: SimpleLogPrinter('AttendanceListCubit'));
 

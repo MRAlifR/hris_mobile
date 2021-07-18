@@ -1,11 +1,14 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Project imports:
+import 'package:hris_mobile/constants/color.dart';
+
 class GradientIcon extends StatelessWidget {
   GradientIcon(
     this.icon, {
     required this.size,
-    required this.colorList,
+    this.colorList = kPrimaryGradientColors,
   });
 
   final IconData icon;

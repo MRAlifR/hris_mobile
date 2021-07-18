@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
 // Project imports:
-import '../../../../l10n/l10n.dart';
+import 'package:hris_mobile/l10n/l10n.dart';
 
 class LoginHeader extends StatelessWidget {
   const LoginHeader();

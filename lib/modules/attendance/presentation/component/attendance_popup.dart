@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
 // Project imports:
-import 'package:hris_mobile/l10n/l10n.dart';
 import 'package:hris_mobile/modules/attendance/presentation/component/digital_clock.dart';
 import 'package:hris_mobile/modules/attendance/presentation/component/gradient_icon.dart';
 import 'package:hris_mobile/modules/attendance/presentation/component/location_text.dart';

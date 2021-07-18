@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:kartal/kartal.dart';
-import 'package:supercharged/supercharged.dart';
 
 class HourIndicator extends StatelessWidget {
   HourIndicator({

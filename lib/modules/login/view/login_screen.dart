@@ -1,23 +1,19 @@
 // Flutter imports:
-import 'package:auto_route/annotations.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:hris_mobile/core/router/apps_router.gr.dart';
 import 'package:kartal/kartal.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 // Project imports:
-import 'package:hris_mobile/core/router/bottom_navigation.dart';
+import 'package:hris_mobile/core/router/app_router.gr.dart';
 import 'package:hris_mobile/l10n/l10n.dart';
 import 'package:hris_mobile/modules/attendance/presentation/view/attendance_screen.dart';
 import 'package:hris_mobile/modules/login/cubit/auth_cubit.dart';
 import 'package:hris_mobile/modules/login/view/components/login_appbar.dart';
 import 'package:hris_mobile/modules/login/view/components/login_header.dart';
-import 'package:hris_mobile/modules/login/view/navigation_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const id = 'login_screen';

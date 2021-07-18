@@ -1,13 +1,9 @@
 // Package imports:
 import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-// import 'package:hris_mobile/core/extension/extension.dart';
-import 'package:intl/intl.dart';
 
 // Project imports:
 import 'package:hris_mobile/modules/attendance/domain/entity/attendance.dart';
-
-// Project imports:
 
 part 'attendance_item.freezed.dart';
 

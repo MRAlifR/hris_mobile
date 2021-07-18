@@ -15,13 +15,12 @@ import 'package:flutter/widgets.dart';
 // Package imports:
 import 'package:bloc/bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 // Project imports:
 import 'package:hris_mobile/app/app.dart';
 import 'package:hris_mobile/app/app_bloc_observer.dart';
 import 'package:hris_mobile/modules/attendance/data/data_source/attendance_local_source.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:path_provider/path_provider.dart';
 
 Future<void> main() async {
   Bloc.observer = AppBlocObserver();

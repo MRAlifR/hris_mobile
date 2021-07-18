@@ -1,9 +1,11 @@
+// Package imports:
 import 'package:hive/hive.dart';
-import 'package:hris_mobile/core/utils/logger.dart';
-import 'package:hris_mobile/core/utils/result.dart';
-import 'package:hris_mobile/core/error/network_exceptions.dart';
-import 'package:hris_mobile/modules/attendance/domain/entity/attendance.dart';
 import 'package:logger/logger.dart';
+
+// Project imports:
+import 'package:hris_mobile/core/error/network_exceptions.dart';
+import 'package:hris_mobile/core/utils/logger.dart';
+import 'package:hris_mobile/modules/attendance/domain/entity/attendance.dart';
 
 final _log = Logger(printer: SimpleLogPrinter('AttendanceLocalSource'));
 

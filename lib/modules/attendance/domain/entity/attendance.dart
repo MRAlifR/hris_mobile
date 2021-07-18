@@ -1,8 +1,10 @@
 // Package imports:
-import 'package:hris_mobile/modules/attendance/data/model/attendance_item.dart';
 import 'package:collection/collection.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+// Project imports:
+import 'package:hris_mobile/modules/attendance/data/model/attendance_item.dart';
 
 part 'attendance.g.dart';
 

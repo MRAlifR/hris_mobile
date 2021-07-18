@@ -1,9 +1,12 @@
+// Package imports:
+import 'package:logger/logger.dart';
+
+// Project imports:
 import 'package:hris_mobile/core/device/api_call.dart';
-import 'package:hris_mobile/core/extension/extension.dart';
 import 'package:hris_mobile/core/error/network_exceptions.dart';
+import 'package:hris_mobile/core/extension/extension.dart';
 import 'package:hris_mobile/core/utils/logger.dart';
 import 'package:hris_mobile/modules/attendance/domain/entity/attendance.dart';
-import 'package:logger/logger.dart';
 
 final _log = Logger(printer: SimpleLogPrinter('AttendanceRemoteSource'));
 

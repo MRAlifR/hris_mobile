@@ -1,23 +1,16 @@
 // Dart imports:
-import 'dart:ui' as ui;
 
 // Flutter imports:
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:hris_mobile/core/router/apps_router.gr.dart';
-import 'package:hris_mobile/modules/attendance/presentation/component/gradient_icon.dart';
 
 // Package imports:
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:supercharged/supercharged.dart';
-import 'package:kartal/kartal.dart';
+import 'package:auto_route/auto_route.dart';
 
 // Project imports:
+import 'package:hris_mobile/constants/color.dart';
+import 'package:hris_mobile/core/router/app_router.gr.dart';
 import 'package:hris_mobile/l10n/l10n.dart';
-import 'package:hris_mobile/modules/attendance/presentation/view/attendance_list_screen.dart';
-import 'package:hris_mobile/modules/attendance/presentation/view/attendance_screen.dart';
-import 'package:hris_mobile/modules/login/view/splash_screen.dart';
+import 'package:hris_mobile/modules/attendance/presentation/component/gradient_icon.dart';
 
 class BottomNavigation extends StatelessWidget {
   BottomNavigation({Key? key}) : super(key: key);
@@ -37,17 +30,13 @@ class BottomNavigation extends StatelessWidget {
         return BottomNavigationBar(
           currentIndex: tabsRouter.activeIndex,
           onTap: tabsRouter.setActiveIndex,
+          fixedColor: kPrimaryColor,
           items: [
             BottomNavigationBarItem(
               label: _l10n.home,
               icon: GradientIcon(
                 Icons.home,
                 size: 30,
-                colorList: [
-                  '#3E80DD'.toColor(),
-                  '#6672D6'.toColor(),
-                  '#9A87E4'.toColor()
-                ],
               ),
             ),
             BottomNavigationBarItem(
@@ -55,11 +44,6 @@ class BottomNavigation extends StatelessWidget {
               icon: GradientIcon(
                 Icons.article,
                 size: 30,
-                colorList: [
-                  '#3E80DD'.toColor(),
-                  '#6672D6'.toColor(),
-                  '#9A87E4'.toColor()
-                ],
               ),
             ),
             BottomNavigationBarItem(
@@ -67,11 +51,6 @@ class BottomNavigation extends StatelessWidget {
               icon: GradientIcon(
                 Icons.person,
                 size: 30,
-                colorList: [
-                  '#3E80DD'.toColor(),
-                  '#6672D6'.toColor(),
-                  '#9A87E4'.toColor()
-                ],
               ),
             ),
           ],

@@ -2,114 +2,24 @@
 import 'dart:math' as math;
 
 // Flutter imports:
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:expandable/expandable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kartal/kartal.dart';
-import 'package:supercharged/supercharged.dart';
 
 // Project imports:
+import 'package:hris_mobile/constants/color.dart';
 import 'package:hris_mobile/core/extension/extension.dart';
-import 'package:hris_mobile/l10n/l10n.dart';
 import 'package:hris_mobile/modules/attendance/data/model/attendance_item.dart';
+import 'package:hris_mobile/modules/attendance/presentation/component/attendance_list_layout.dart';
 
-class AttendanceTableLayout extends StatelessWidget {
-  const AttendanceTableLayout({
-    Key? key,
-    this.startAlignmentWidget,
-    this.endAlignmentWidget,
-    this.startAlignmentSpacing,
-    this.endAlignmentSpacing,
-    this.height = 50,
-    this.backgroundColor = Colors.white,
-    this.padding = const EdgeInsets.symmetric(horizontal: 24.0),
-  }) : super(key: key);
+class AttendanceListItem extends StatelessWidget {
+  const AttendanceListItem(this.attendanceItem, [this.dateTime]);
 
-  final List<Widget>? startAlignmentWidget;
-  final List<Widget>? endAlignmentWidget;
-  final double? startAlignmentSpacing;
-  final double? endAlignmentSpacing;
-  final Color backgroundColor;
-  final double height;
-  final EdgeInsets padding;
-
-  List<Widget> _buildSpacing(List<Widget>? widgetList, double? spacing) {
-    var newList = <Widget>[];
-    for (var widget in widgetList!) {
-      newList.add(widget);
-      if (widgetList.last != widget) newList.add(SizedBox(width: spacing));
-    }
-    return newList;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: height,
-      color: backgroundColor,
-      child: Padding(
-        padding: padding,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: _buildSpacing(
-                startAlignmentWidget,
-                startAlignmentSpacing,
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: _buildSpacing(
-                endAlignmentWidget,
-                endAlignmentSpacing,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class AttendanceListHeader extends StatelessWidget {
-  const AttendanceListHeader({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    const textStyle = TextStyle(
-      fontSize: 11,
-      fontWeight: FontWeight.w800,
-    );
-    return AttendanceTableLayout(
-      backgroundColor: '#FAF9FA'.toColor(),
-      height: context.height * 0.045,
-      startAlignmentSpacing: context.width * 0.11,
-      startAlignmentWidget: [
-        const Text('Date', style: textStyle),
-        const Text('Check In', style: textStyle),
-        const Text('Check Out', style: textStyle),
-      ],
-      endAlignmentWidget: [
-        const Text('Working Hr\'s', style: textStyle),
-        const SizedBox(width: 12)
-      ],
-    );
-  }
-}
-
-class AttendanceRow extends StatelessWidget {
-  const AttendanceRow(this.attendanceItem, [this.dateTime]);
-
-  const AttendanceRow.empty(this.dateTime, [this.attendanceItem]);
+  const AttendanceListItem.empty(this.dateTime, [this.attendanceItem]);
 
   final AttendanceItem? attendanceItem;
   final DateTime? dateTime;
@@ -117,20 +27,6 @@ class AttendanceRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _locale = Localizations.localeOf(context);
-
-    // ignore: prefer_typing_uninitialized_variables
-    var date, day, workedHour;
-    if (attendanceItem == null) {
-      date = dateTime!.toStringAsDateOnly(_locale);
-      day = dateTime!.toStringAsDay(_locale);
-      workedHour = '--:--';
-    } else {
-      date = attendanceItem!.checkIn!.toStringAsDateOnly(_locale);
-      day = attendanceItem!.checkIn!.toStringAsDay(_locale);
-      workedHour = Duration(
-        seconds: (attendanceItem!.workedHours * 3600).toInt(),
-      ).toStringAsTimeHM;
-    }
 
     return ExpandableNotifier(
       child: ExpandablePanel(
@@ -141,22 +37,41 @@ class AttendanceRow extends StatelessWidget {
           tapBodyToCollapse: true,
           hasIcon: false,
         ),
-        header: AttendanceListRowHeader(
-          checkIn: attendanceItem?.checkIn?.toStringAsTime ?? '--:--',
-          checkOut: attendanceItem?.checkOut?.toStringAsTime ?? '--:--',
-          workedHour: workedHour,
-          date: date,
-          day: day,
+        header: attendanceItem != null
+            ? AttendanceListItemCollapsed(
+                checkIn: attendanceItem?.checkIn?.toStringAsTime ?? '--:--',
+                checkOut: attendanceItem?.checkOut?.toStringAsTime ?? '--:--',
+                workedHour: Duration(
+                  seconds: (attendanceItem!.workedHours * 3600).toInt(),
+                ).toStringAsTimeHM,
+                date: attendanceItem!.checkIn!.toStringAsDateOnly(_locale),
+                day: attendanceItem!.checkIn!.toStringAsDay(_locale),
+              )
+            : AttendanceListItemCollapsed(
+                checkIn: '--:--',
+                checkOut: '--:--',
+                workedHour: '--:--',
+                date: dateTime!.toStringAsDateOnly(_locale),
+                day: dateTime!.toStringAsDay(_locale),
+              ),
+        collapsed: Container(
+          color: Colors.white,
+          child: Divider(
+            thickness: 1,
+            indent: context.width * 0.22,
+            color: Colors.grey.shade200,
+          ),
         ),
-        collapsed: Container(),
-        expanded: const AttendanceListRowBottom(),
+        expanded: attendanceItem != null
+            ? AttendanceListItemExpanded(attendanceItem: attendanceItem!)
+            : Container(),
       ),
     );
   }
 }
 
-class AttendanceListRowHeader extends StatelessWidget {
-  const AttendanceListRowHeader({
+class AttendanceListItemCollapsed extends StatelessWidget {
+  const AttendanceListItemCollapsed({
     required this.date,
     required this.day,
     required this.checkIn,
@@ -183,7 +98,7 @@ class AttendanceListRowHeader extends StatelessWidget {
       child: Flex(
         direction: Axis.vertical,
         children: [
-          AttendanceTableLayout(
+          AttendanceListLayout(
             height: context.height * 0.06,
             padding: const EdgeInsets.only(left: 24.0),
             startAlignmentWidget: [
@@ -300,21 +215,19 @@ class AttendanceListRowHeader extends StatelessWidget {
               ),
             ],
           ),
-          Divider(
-            thickness: 1,
-            indent: context.width * 0.22,
-            color: Colors.grey.shade200,
-          ),
         ],
       ),
     );
   }
 }
 
-class AttendanceListRowBottom extends StatelessWidget {
-  const AttendanceListRowBottom({
+class AttendanceListItemExpanded extends StatelessWidget {
+  const AttendanceListItemExpanded({
     Key? key,
+    required this.attendanceItem,
   }) : super(key: key);
+
+  final AttendanceItem attendanceItem;
 
   Widget _buildText(String title, String value) {
     return Row(
@@ -342,6 +255,135 @@ class AttendanceListRowBottom extends StatelessWidget {
     );
   }
 
+  List<Widget> _buildAttendanceList() {
+    return attendanceItem.attendances.map((attendance) {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: Container(
+          height: 40,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Container(
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(4.0),
+                    ),
+                    border: Border.all(
+                      color: Colors.blueGrey.withOpacity(0.1),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.timer,
+                        color: kPrimaryColor,
+                        size: 20,
+                      ),
+                      const SizedBox(width: 3),
+                      const Text(
+                        'Time Marked',
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      attendance.checkIn!.toStringAsTime!,
+                      style: const TextStyle(
+                        letterSpacing: 0.5,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.location_on,
+                          size: 11,
+                          color: Colors.grey,
+                        ),
+                        Flexible(
+                          child: RichText(
+                            textAlign: TextAlign.start,
+                            overflow: TextOverflow.ellipsis,
+                            text: TextSpan(
+                              text: attendance.address,
+                              style: const TextStyle(
+                                fontSize: 10,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      attendance.checkOut != null
+                          ? attendance.checkOut!.toStringAsTime!
+                          : '',
+                      style: const TextStyle(
+                        letterSpacing: 0.5,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        attendance.addressOut != null
+                            ? const Icon(
+                                Icons.location_on,
+                                size: 11,
+                                color: Colors.grey,
+                              )
+                            : Container(),
+                        Flexible(
+                          child: RichText(
+                            textAlign: TextAlign.start,
+                            overflow: TextOverflow.ellipsis,
+                            text: TextSpan(
+                              text: attendance.addressOut,
+                              style: const TextStyle(
+                                fontSize: 10,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -357,9 +399,9 @@ class AttendanceListRowBottom extends StatelessWidget {
           Container(
             color: Colors.white,
             child: Container(
-              decoration: BoxDecoration(
-                color: '#FEEAD0'.toColor(),
-                borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+              decoration: const BoxDecoration(
+                color: kWarningColor,
+                borderRadius: BorderRadius.all(Radius.circular(4.0)),
               ),
               height: context.height * 0.04,
               child: Row(
@@ -398,45 +440,9 @@ class AttendanceListRowBottom extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(height: 8),
+          ..._buildAttendanceList()
         ],
-      ),
-    );
-  }
-}
-
-class AttendanceWeekendRow extends StatelessWidget {
-  const AttendanceWeekendRow({
-    Key? key,
-    this.saturdayDate,
-    this.sundayDate,
-  }) : super(key: key);
-
-  final String? saturdayDate;
-  final String? sundayDate;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.only(
-        top: 8,
-        bottom: 18,
-        left: 18,
-        right: 18,
-      ),
-      child: Container(
-        color: '#FBFBF0'.toColor(),
-        // color: Colors.amber.shade100,
-        height: context.height * 0.07,
-        child: Center(
-          child: Text(
-            'Weekend : $saturdayDate Saturday & $sundayDate Sunday',
-            style: const TextStyle(
-              color: Colors.black54,
-              fontSize: 13,
-            ),
-          ),
-        ),
       ),
     );
   }

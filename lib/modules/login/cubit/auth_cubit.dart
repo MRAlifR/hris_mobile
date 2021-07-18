@@ -4,8 +4,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
 
 // Project imports:
-import '../../../core/error/network_exceptions.dart';
-import '../repository/auth_repo.dart';
+import 'package:hris_mobile/core/error/network_exceptions.dart';
+import 'package:hris_mobile/modules/login/repository/auth_repo.dart';
 
 part 'auth_cubit.freezed.dart';
 part 'auth_state.dart';

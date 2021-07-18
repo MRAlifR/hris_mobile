@@ -4,18 +4,23 @@
 // AutoRouteGenerator
 // **************************************************************************
 
-import 'package:auto_route/auto_route.dart' as _i1;
+// Flutter imports:
 import 'package:flutter/material.dart' as _i2;
 
-import '../../modules/attendance/presentation/view/attendance_list_screen.dart'
-    as _i6;
-import '../../modules/attendance/presentation/view/attendance_screen.dart'
-    as _i5;
-import '../../modules/login/view/login_screen.dart' as _i3;
-import 'bottom_navigation.dart' as _i4;
+// Package imports:
+import 'package:auto_route/auto_route.dart' as _i1;
 
-class AppsRouter extends _i1.RootStackRouter {
-  AppsRouter([_i2.GlobalKey<_i2.NavigatorState>? navigatorKey])
+// Project imports:
+import 'package:hris_mobile/core/router/bottom_navigation.dart' as _i4;
+import 'package:hris_mobile/modules/login/view/login_screen.dart' as _i3;
+
+import 'package:hris_mobile/modules/attendance/presentation/view/attendance_list_screen.dart'
+    as _i6;
+import 'package:hris_mobile/modules/attendance/presentation/view/attendance_screen.dart'
+    as _i5;
+
+class AppRouter extends _i1.RootStackRouter {
+  AppRouter([_i2.GlobalKey<_i2.NavigatorState>? navigatorKey])
       : super(navigatorKey);
 
   @override

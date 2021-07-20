@@ -74,13 +74,8 @@ void main(List<String> args) {
     ),
   ];
 
-  var jsonAttA = attA.map((e) => e.toJson()).toList();
-  print(jsonAttA);
-
-  var attB = jsonAttA.map((e) => Attendance.fromJson(e)).toList();
-  attB.forEach((element) {
-    print(element.checkIn);
-  });
+  var asda = '12:30';
+  print(asda.allBefore(':'));
   // var attB = Attendance.fromJson(jsonAttA);
   // print(attB.checkIn);
   // print(attB.checkOut);

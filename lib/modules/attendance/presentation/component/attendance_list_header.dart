@@ -25,15 +25,35 @@ class AttendanceListHeader extends StatelessWidget {
     return AttendanceListLayout(
       backgroundColor: '#FAF9FA'.toColor(),
       height: context.height * 0.045,
-      startAlignmentSpacing: context.width * 0.11,
+      padding: const EdgeInsets.only(left: 24.0),
       startAlignmentWidget: [
-        const Text('Date', style: textStyle),
-        const Text('Check In', style: textStyle),
-        const Text('Check Out', style: textStyle),
+        const AttendanceListLayoutContainer(
+          widthScale: 0.2,
+          child: Text('Date', style: textStyle),
+        ),
+        const AttendanceListLayoutContainer(
+          widthScale: 0.2,
+          child: Text('Check In', style: textStyle),
+        ),
+        const AttendanceListLayoutContainer(
+          widthScale: 0.2,
+          child: Text('Check Out', style: textStyle),
+        ),
       ],
       endAlignmentWidget: [
-        const Text('Working Hr\'s', style: textStyle),
-        const SizedBox(width: 12)
+        const AttendanceListLayoutContainer(
+          widthScale: 0.3,
+          alignment: Alignment.centerRight,
+          child: Text(
+            'Working Hr\'s',
+            textAlign: TextAlign.end,
+            style: textStyle,
+          ),
+        ),
+        AttendanceListLayoutContainer(
+          widthScale: 0.1,
+          child: Container(),
+        ),
       ],
     );
   }

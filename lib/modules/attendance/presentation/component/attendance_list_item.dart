@@ -15,6 +15,7 @@ import 'package:hris_mobile/constants/color.dart';
 import 'package:hris_mobile/core/extension/extension.dart';
 import 'package:hris_mobile/modules/attendance/data/model/attendance_item.dart';
 import 'package:hris_mobile/modules/attendance/presentation/component/attendance_list_layout.dart';
+import 'package:supercharged/supercharged.dart';
 
 class AttendanceListItem extends StatelessWidget {
   const AttendanceListItem(this.attendanceItem, [this.dateTime]);
@@ -87,136 +88,146 @@ class AttendanceListItemCollapsed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const textStyle = TextStyle(
+    var textColor = Colors.black;
+
+    if (workedHour.allBefore('h') != '') {
+      var hour = int.parse(workedHour.allBefore('h'));
+      var minute = int.parse(workedHour.allBetween(' ', 'm'));
+      if (hour < 9) {
+        textColor = kErrorColor;
+      } else {
+        textColor = minute >= 30 ? kSuccessColor : Colors.black;
+      }
+    }
+
+    var textStyle = TextStyle(
       fontSize: 14,
-      color: Colors.green,
+      color: textColor,
       fontWeight: FontWeight.w500,
     );
 
-    return Container(
-      color: Colors.white,
-      child: Flex(
-        direction: Axis.vertical,
-        children: [
-          AttendanceListLayout(
-            height: context.height * 0.06,
-            padding: const EdgeInsets.only(left: 24.0),
-            startAlignmentWidget: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 3),
-                child: Container(
-                  width: 43,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.blueGrey.shade50),
-                    shape: BoxShape.rectangle,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        date,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: -1,
-                        ),
-                      ),
-                      Text(
-                        day,
-                        style: const TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
+    return AttendanceListLayout(
+      height: context.height * 0.06,
+      padding: const EdgeInsets.only(left: 24.0),
+      startAlignmentWidget: [
+        AttendanceListLayoutContainer(
+          widthScale: 0.2,
+          child: Container(
+            width: 45,
+            height: 45,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.blueGrey.shade50),
+              shape: BoxShape.rectangle,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  date,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: -1,
                   ),
                 ),
-              ),
-              SizedBox(width: context.width * 0.06),
-              RichText(
-                textAlign: TextAlign.left,
-                overflow: TextOverflow.ellipsis,
-                text: TextSpan(
-                  children: [
-                    WidgetSpan(
-                      child: Transform.rotate(
-                        angle: 45 * math.pi / 180,
-                        child: const FaIcon(
-                          FontAwesomeIcons.arrowRight,
-                          size: 15,
-                          color: Colors.blue,
-                        ),
-                      ),
-                    ),
-                    const WidgetSpan(
-                      child: SizedBox(width: 1),
-                    ),
-                    TextSpan(
-                      text: checkIn,
-                      style: textStyle,
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(width: context.width * 0.09),
-              RichText(
-                textAlign: TextAlign.left,
-                overflow: TextOverflow.ellipsis,
-                text: TextSpan(
-                  children: [
-                    WidgetSpan(
-                      child: Transform.rotate(
-                        angle: 45 * math.pi / 180,
-                        child: const FaIcon(
-                          FontAwesomeIcons.arrowUp,
-                          size: 15,
-                          color: Colors.blue,
-                        ),
-                      ),
-                    ),
-                    const WidgetSpan(
-                      child: SizedBox(width: 1),
-                    ),
-                    TextSpan(
-                      text: checkOut,
-                      style: textStyle,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-            endAlignmentWidget: [
-              RichText(
-                textAlign: TextAlign.right,
-                overflow: TextOverflow.ellipsis,
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: workedHour,
-                      style: textStyle,
-                    ),
-                  ],
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: ExpandableIcon(
-                  theme: const ExpandableThemeData(
-                    useInkWell: false,
-                    expandIcon: Icons.chevron_right,
-                    collapseIcon: Icons.chevron_right,
-                    iconColor: Colors.blueGrey,
-                    iconSize: 20.0,
-                    iconRotationAngle: math.pi / 2,
-                    hasIcon: false,
+                Text(
+                  day,
+                  style: const TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ],
-      ),
+        ),
+        AttendanceListLayoutContainer(
+          widthScale: 0.2,
+          child: RichText(
+            textAlign: TextAlign.left,
+            overflow: TextOverflow.ellipsis,
+            text: TextSpan(
+              children: [
+                WidgetSpan(
+                  child: Transform.rotate(
+                    angle: 45 * math.pi / 180,
+                    child: const FaIcon(
+                      FontAwesomeIcons.arrowRight,
+                      size: 15,
+                      color: Colors.blue,
+                    ),
+                  ),
+                ),
+                const WidgetSpan(
+                  child: SizedBox(width: 1),
+                ),
+                TextSpan(
+                  text: checkIn,
+                  style: textStyle,
+                ),
+              ],
+            ),
+          ),
+        ),
+        AttendanceListLayoutContainer(
+          widthScale: 0.2,
+          child: RichText(
+            textAlign: TextAlign.left,
+            overflow: TextOverflow.ellipsis,
+            text: TextSpan(
+              children: [
+                WidgetSpan(
+                  child: Transform.rotate(
+                    angle: 45 * math.pi / 180,
+                    child: const FaIcon(
+                      FontAwesomeIcons.arrowUp,
+                      size: 15,
+                      color: Colors.blue,
+                    ),
+                  ),
+                ),
+                const WidgetSpan(
+                  child: SizedBox(width: 1),
+                ),
+                TextSpan(
+                  text: checkOut,
+                  style: textStyle,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+      endAlignmentWidget: [
+        AttendanceListLayoutContainer(
+          widthScale: 0.3,
+          alignment: Alignment.centerRight,
+          child: Text(
+            workedHour,
+            textAlign: TextAlign.end,
+            style: textStyle,
+          ),
+        ),
+        AttendanceListLayoutContainer(
+          widthScale: 0.1,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: ExpandableIcon(
+              theme: const ExpandableThemeData(
+                useInkWell: false,
+                expandIcon: Icons.chevron_right,
+                collapseIcon: Icons.chevron_right,
+                iconColor: Colors.blueGrey,
+                iconSize: 20.0,
+                iconRotationAngle: math.pi / 2,
+                hasIcon: false,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -306,6 +317,7 @@ class AttendanceListItemExpanded extends StatelessWidget {
                       style: const TextStyle(
                         letterSpacing: 0.5,
                         fontWeight: FontWeight.w500,
+                        fontSize: 14,
                       ),
                     ),
                     Row(
@@ -346,6 +358,7 @@ class AttendanceListItemExpanded extends StatelessWidget {
                           : '',
                       style: const TextStyle(
                         letterSpacing: 0.5,
+                        fontSize: 14,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -420,12 +433,15 @@ class AttendanceListItemExpanded extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: _buildText('Check In Time', '09:30'),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: _buildText('Updated Check In Time', '09:30'),
-                      ),
+                        child: Text(
+                          'Forgot to check in or check out? Call HCM for fixing the data...',
+                          style: const TextStyle(
+                            fontSize: 9,
+                            color: Colors.black54,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      )
                     ],
                   ),
                   const Padding(

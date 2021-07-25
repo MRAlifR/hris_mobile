@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:expandable/expandable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hris_mobile/modules/attendance/domain/entity/attendance.dart';
+import 'package:hris_mobile/modules/attendance/presentation/component/attendance_popup.dart';
 import 'package:kartal/kartal.dart';
 
 // Project imports:
@@ -35,7 +37,7 @@ class AttendanceListItem extends StatelessWidget {
           useInkWell: false,
           headerAlignment: ExpandablePanelHeaderAlignment.center,
           tapBodyToExpand: true,
-          tapBodyToCollapse: true,
+          tapBodyToCollapse: false,
           hasIcon: false,
         ),
         header: attendanceItem != null
@@ -58,14 +60,12 @@ class AttendanceListItem extends StatelessWidget {
         collapsed: Container(
           color: Colors.white,
           child: Divider(
-            thickness: 1,
             indent: context.width * 0.22,
+            thickness: 1,
             color: Colors.grey.shade200,
           ),
         ),
-        expanded: attendanceItem != null
-            ? AttendanceListItemExpanded(attendanceItem: attendanceItem!)
-            : Container(),
+        expanded: AttendanceListItemExpanded(attendanceItem: attendanceItem),
       ),
     );
   }
@@ -108,7 +108,7 @@ class AttendanceListItemCollapsed extends StatelessWidget {
 
     return AttendanceListLayout(
       height: context.height * 0.06,
-      padding: const EdgeInsets.only(left: 24.0),
+      padding: const EdgeInsets.only(left: 17.0),
       startAlignmentWidget: [
         AttendanceListLayoutContainer(
           widthScale: 0.2,
@@ -238,42 +238,165 @@ class AttendanceListItemExpanded extends StatelessWidget {
     required this.attendanceItem,
   }) : super(key: key);
 
-  final AttendanceItem attendanceItem;
+  final AttendanceItem? attendanceItem;
 
-  Widget _buildText(String title, String value) {
-    return Row(
+  @override
+  Widget build(BuildContext context) {
+    var showDetail = attendanceItem == null ? false : true;
+
+    return Column(
       children: [
-        Center(
-          child: Text(
-            title,
-            style: const TextStyle(
-              fontSize: 9,
-              color: Colors.black54,
-              fontWeight: FontWeight.w500,
-            ),
+        Container(
+          color: Colors.white,
+          padding: const EdgeInsets.only(
+            top: 3,
+            left: 17,
+            right: 17,
+          ),
+          child: Column(
+            children: [
+              AttendanceListItemWarning(
+                attendanceItem: attendanceItem,
+              ),
+              ...showDetail
+                  ? [
+                      const SizedBox(height: 8),
+                      ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: attendanceItem!.attendances.length,
+                        itemBuilder: (context, index) =>
+                            AttendanceListItemDetail(
+                          attendance: attendanceItem!.attendances[index],
+                        ),
+                      )
+                    ]
+                  : [Container()],
+            ],
           ),
         ),
-        const SizedBox(width: 4),
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 9,
-            color: Colors.black54,
-            fontWeight: FontWeight.w900,
+        Container(
+          color: Colors.white,
+          child: Divider(
+            thickness: 1,
+            color: Colors.grey.shade200,
           ),
         ),
       ],
     );
   }
+}
 
-  List<Widget> _buildAttendanceList() {
-    return attendanceItem.attendances.map((attendance) {
-      return Padding(
+class AttendanceListItemWarning extends StatelessWidget {
+  const AttendanceListItemWarning({
+    Key? key,
+    required this.attendanceItem,
+  }) : super(key: key);
+
+  final AttendanceItem? attendanceItem;
+
+  @override
+  Widget build(BuildContext context) {
+    var showWarning = false;
+    var message =
+        'Forgot to check in or check out? Call HCM for fixing the data...';
+
+    if (attendanceItem != null) {
+      if (attendanceItem!.checkIn == null)
+        showWarning = true;
+      else {
+        if (attendanceItem!.checkOut != null) {
+          var duration =
+              attendanceItem!.checkOut!.difference(attendanceItem!.checkIn!);
+          if (duration.inMinutes < 3)
+            showWarning = true;
+          else if (duration.inHours < 9) {
+            showWarning = true;
+            message = 'Your working hours are under 9 hours...';
+          }
+        }
+      }
+    } else {
+      showWarning = true;
+    }
+
+    return showWarning
+        ? Container(
+            color: Colors.white,
+            child: Container(
+              decoration: const BoxDecoration(
+                color: kWarningColor,
+                borderRadius: BorderRadius.all(Radius.circular(4.0)),
+              ),
+              height: context.height * 0.04,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: FaIcon(
+                          FontAwesomeIcons.exclamationCircle,
+                          size: 15,
+                          color: Colors.blueGrey,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text(
+                          message,
+                          style: const TextStyle(
+                            fontSize: 9,
+                            color: Colors.black54,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    child: FaIcon(
+                      FontAwesomeIcons.solidCommentDots,
+                      size: 15,
+                      color: Colors.blueGrey,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
+        : Container();
+  }
+}
+
+class AttendanceListItemDetail extends StatelessWidget {
+  const AttendanceListItemDetail({
+    Key? key,
+    required this.attendance,
+  }) : super(key: key);
+
+  final Attendance attendance;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        showDialog<String>(
+          context: context,
+          builder: (_) => const AttendancePopup(
+            iconColors: kPrimaryGradientColors,
+            address: 'asdsa',
+          ),
+        );
+      },
+      child: Padding(
         padding: const EdgeInsets.only(bottom: 8),
         child: Container(
           height: 40,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
                 child: Container(
@@ -393,72 +516,6 @@ class AttendanceListItemExpanded extends StatelessWidget {
             ],
           ),
         ),
-      );
-    }).toList();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.only(
-        top: 3,
-        bottom: 17,
-        left: 17,
-        right: 17,
-      ),
-      child: Column(
-        children: [
-          Container(
-            color: Colors.white,
-            child: Container(
-              decoration: const BoxDecoration(
-                color: kWarningColor,
-                borderRadius: BorderRadius.all(Radius.circular(4.0)),
-              ),
-              height: context.height * 0.04,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: FaIcon(
-                          FontAwesomeIcons.exclamationCircle,
-                          size: 15,
-                          color: Colors.blueGrey,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(
-                          'Forgot to check in or check out? Call HCM for fixing the data...',
-                          style: const TextStyle(
-                            fontSize: 9,
-                            color: Colors.black54,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.0),
-                    child: FaIcon(
-                      FontAwesomeIcons.solidCommentDots,
-                      size: 15,
-                      color: Colors.blueGrey,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          ..._buildAttendanceList()
-        ],
       ),
     );
   }

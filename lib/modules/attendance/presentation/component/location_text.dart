@@ -20,29 +20,31 @@ class LocationText extends StatelessWidget {
       direction: Axis.horizontal,
       children: [
         Flexible(
-          child: RichText(
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-            text: TextSpan(
-              children: [
-                const WidgetSpan(
-                  child: Icon(
-                    Icons.location_on,
-                    size: 15,
-                    color: Colors.grey,
+          child: Center(
+            child: RichText(
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              text: TextSpan(
+                children: [
+                  const WidgetSpan(
+                    child: Icon(
+                      Icons.location_on,
+                      size: 15,
+                      color: Colors.grey,
+                    ),
                   ),
-                ),
-                const WidgetSpan(
-                  child: SizedBox(width: 3),
-                ),
-                TextSpan(
-                  text: '${_l10n.location}: $_address',
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey,
+                  const WidgetSpan(
+                    child: SizedBox(width: 3),
                   ),
-                ),
-              ],
+                  TextSpan(
+                    text: '${_l10n.location}: $_address',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

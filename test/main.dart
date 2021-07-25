@@ -81,4 +81,9 @@ void main(List<String> args) {
   // print(attB.checkOut);
   // var attC = attB.toJson();
   // print(attC);
+
+  var future = (1.seconds).fromNow();
+  var now = DateTime.now();
+
+  print(future.difference(now).inMinutes);
 }

@@ -2,27 +2,27 @@
 import 'package:flutter/material.dart';
 
 const MaterialColor kPrimaryColor = MaterialColor(
-  0xFF6672D6,
+  0xFF3E80DD,
   <int, Color>{
-    50: Color(0xFFEDEEFA),
-    100: Color(0xFFD1D5F3),
-    200: Color(0xFFB3B9EB),
-    300: Color(0xFF949CE2),
-    400: Color(0xFF7D87DC),
-    500: Color(0xFF6672D6),
-    600: Color(0xFF5E6AD1),
-    700: Color(0xFF535FCC),
-    800: Color(0xFF4955C6),
-    900: Color(0xFF3842BC),
+    50: Color(0xFFE8F0FB),
+    100: Color(0xFFC5D9F5),
+    200: Color(0xFF9FC0EE),
+    300: Color(0xFF78A6E7),
+    400: Color(0xFF5B93E2),
+    500: Color(0xFF3E80DD),
+    600: Color(0xFF3878D9),
+    700: Color(0xFF306DD4),
+    800: Color(0xFF2863CF),
+    900: Color(0xFF1B50C7),
   },
 );
 const MaterialColor kPrimaryAccentColor = MaterialColor(
-  0xFFD4D7FF,
+  0xFFC9D8FF,
   <int, Color>{
-    100: Color(0xFFFFFFFF),
-    200: Color(0xFFD4D7FF),
-    400: Color(0xFFA1A7FF),
-    700: Color(0xFF8790FF),
+    100: Color(0xFFFCFDFF),
+    200: Color(0xFFC9D8FF),
+    400: Color(0xFF96B3FF),
+    700: Color(0xFF7CA1FF),
   },
 );
 

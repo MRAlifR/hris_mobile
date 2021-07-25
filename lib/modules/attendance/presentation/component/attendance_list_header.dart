@@ -25,7 +25,7 @@ class AttendanceListHeader extends StatelessWidget {
     return AttendanceListLayout(
       backgroundColor: '#FAF9FA'.toColor(),
       height: context.height * 0.045,
-      padding: const EdgeInsets.only(left: 24.0),
+      padding: const EdgeInsets.only(left: 17.0),
       startAlignmentWidget: [
         const AttendanceListLayoutContainer(
           widthScale: 0.2,
